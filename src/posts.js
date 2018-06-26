@@ -2,6 +2,7 @@
 import React from 'react';
 import { Create, Edit, List, Datagrid, TextField, ReferenceField, EditButton, DisabledInput, LongTextInput, ReferenceInput, SelectInput, SimpleForm, TextInput, Filter  } from 'react-admin';
 
+
 const PostFilter = (props) => (
     <Filter {...props}>
         <TextInput label="Search posts" source="q" alwaysOn />
