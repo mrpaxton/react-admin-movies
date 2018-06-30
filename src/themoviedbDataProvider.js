@@ -22,7 +22,10 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
             api_key: API_KEY,
             language: LANGUAGE,
             sort_by: SORT_BY,
-            page: 1
+            sort_by: "revenue.desc",
+            page: 1,
+            "primary_release_date.gte": "2017-01-01",
+            "primary_release_date.lte": "2018-12-31",
         }
         return { url: `${API_URL}/3/discover/movie?${stringify(query)}` };
     }
@@ -50,20 +53,20 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
  * @returns {Object} Data Provider response
  */
 const convertHTTPResponseToDataProvider = (response, type, resource, params) => {
-    console.log(response);
     const { headers, json } = response;
     switch (type) {
-    case GET_LIST:
+    case GET_LIST: {
+        const image = {"image_path":"http://image.tmdb.org/t/p/w185/" + json.poster_path};
+        console.log(json.results.map( x => ({...x, ...image})));
         return {
-            data: json.results.map( x => x ),
-            total: 99,
+            data: json.results.map( x => ({...x, ...{"image_path": "http://image.tmdb.org/t/p/w500/" + x.poster_path}}) ),
+            total: json.results.length,
         };
+    }
     case GET_ONE: {
-        //add the image path
-        const modifiedJson = json;
-        modifiedJson["image_path"] = "http://image.tmdb.org/t/p/w500/" + json.poster_path
+        json["image_path"] = "http://image.tmdb.org/t/p/w500/" + json.poster_path
         return {
-            data: modifiedJson
+            data: json
         };
     }
     default:
