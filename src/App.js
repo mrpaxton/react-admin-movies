@@ -6,6 +6,7 @@ import { Admin, Resource } from 'react-admin';
 import { PostList, PostEdit, PostCreate } from './posts';
 import { UserList } from './users';
 import { MovieList, MovieShow } from './movies';
+import { GenreList } from './genres';
 import Menu from './Menu';
 import customRoutes from './customRoutes';
 import authProvider from './authProvider';
@@ -22,6 +23,7 @@ const dataProvider = themoviedbDataProvider;
 const App = () => (
     <Admin menu={Menu} authProvider={authProvider} customRoutes={customRoutes} dataProvider={dataProvider}>
         <Resource name="movies" show={MovieShow} list={MovieList} />
+        <Resource name="genres" list={GenreList}/>
     </Admin>
 );
 

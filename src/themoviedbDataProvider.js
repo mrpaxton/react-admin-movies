@@ -6,7 +6,6 @@ import { stringify } from 'query-string';
 const API_URL = 'https://api.themoviedb.org';
 const API_KEY = '91dd36dcc51c92862485f14714c32742';
 const LANGUAGE = 'en-US';
-const SORT_BY = 'release_date.asc';
 
 /**
  * @param {String} type One of the constants appearing at the top if this file, e.g. 'UPDATE'
@@ -18,23 +17,29 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
     switch (type) {
 
     case GET_LIST: {
-        let query = {
-            api_key: API_KEY,
-            language: LANGUAGE,
-            sort_by: SORT_BY,
-            sort_by: "revenue.desc",
-            page: 1,
-            "primary_release_date.gte": "2017-01-01",
-            "primary_release_date.lte": "2018-12-31",
+        if (resource === 'movies') {
+            let query = {
+                api_key: API_KEY,
+                language: LANGUAGE,
+                sort_by: "revenue.desc",
+                page: 1,
+                "primary_release_date.gte": "2017-01-01",
+                "primary_release_date.lte": "2018-12-31",
+            }
+            return { url: `${API_URL}/3/discover/movie?${stringify(query)}` };
+        } else if (resource === 'genres') {
+            let query = {
+                api_key: API_KEY
+            }
+            console.log("in genres request conversion call in dataProvider" + `${API_URL}/3/genre/movie/list?${stringify(query)}` );
+            return { url: `${API_URL}/3/genre/movie/list?${stringify(query)}` };
         }
-        return { url: `${API_URL}/3/discover/movie?${stringify(query)}` };
     }
 
     case GET_ONE: {
         let query = {
             api_key: API_KEY
         }
-        console.log(params.id);
         return { url: `${API_URL}/3/movie/${params.id}?${stringify(query)}` };
     }
 
@@ -56,12 +61,18 @@ const convertHTTPResponseToDataProvider = (response, type, resource, params) => 
     const { headers, json } = response;
     switch (type) {
     case GET_LIST: {
-        const image = {"image_path":"http://image.tmdb.org/t/p/w185/" + json.poster_path};
-        console.log(json.results.map( x => ({...x, ...image})));
-        return {
-            data: json.results.map( x => ({...x, ...{"image_path": "http://image.tmdb.org/t/p/w500/" + x.poster_path}}) ),
-            total: json.results.length,
-        };
+        if (resource === 'movies') {
+            return {
+                data: json.results.map( x => ({...x, ...{"image_path": "http://image.tmdb.org/t/p/w342" + x.poster_path}}) ),
+                total: json.results.length,
+            };
+        } else if (resource === 'genres') {
+            console.log("in genres dataProvider call");
+            return {
+                data: json.genres,
+                total: json.genres.length
+            }
+        }
     }
     case GET_ONE: {
         json["image_path"] = "http://image.tmdb.org/t/p/w500/" + json.poster_path
