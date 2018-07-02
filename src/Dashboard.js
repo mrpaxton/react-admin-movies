@@ -20,7 +20,7 @@ class Dashboard extends React.Component {
         const { price } = this.state;
         return (
             <Card>
-                <CardHeader title="Hello Admin!" />
+                <CardHeader title="Movie Stats for Movie Lovers :)" />
                 <CardContent>This is an example of a dashboard using react-admin</CardContent>
                 <Typography>{ price || "Data Retrieval Error" }</Typography>
             </Card>
