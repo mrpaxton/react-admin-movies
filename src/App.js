@@ -1,9 +1,9 @@
 
+//import PostIcon from '@material-ui/icons/Book';
+//import UserIcon from '@material-ui/icons/Group';
+//import { UserList } from './users';
 import React from 'react';
-import PostIcon from '@material-ui/icons/Book';
-import UserIcon from '@material-ui/icons/Group';
 import { Admin, Resource } from 'react-admin';
-import { UserList } from './users';
 import { MovieShow } from './movies';
 import MovieList from './MovieList';
 import { GenreList } from './genres';

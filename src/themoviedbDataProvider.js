@@ -63,7 +63,10 @@ const convertHTTPResponseToDataProvider = (response, type, resource, params) => 
     case GET_LIST: {
         if (resource === 'movies') {
             return {
-                data: json.results.map( x => ({...x, ...{"image_path": "http://image.tmdb.org/t/p/w342" + x.poster_path}}) ),
+                data: json.results.map( x => ({
+                    ...x,
+                    ...{"image_path": "http://image.tmdb.org/t/p/w342" + x.poster_path}
+                })),
                 total: json.results.length,
             };
         } else if (resource === 'genres') {
