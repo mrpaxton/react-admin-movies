@@ -8,11 +8,10 @@ import CardActions from '@material-ui/core/CardActions';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
-import { GET_LIST, List } from 'react-admin';
+import { GET_LIST, List, Loading } from 'react-admin';
 import { TextField, DateField, RichTextField, SingleFieldList } from 'react-admin';
 
 import PropTypes from 'prop-types';
-import { showNotification as showNotificationAction } from 'react-admin';
 import { push as pushAction } from 'react-router-redux';
 import { connect } from 'react-redux';
 import themoviedbDataProvider from './themoviedbDataProvider';
@@ -51,7 +50,7 @@ const MovieGrid = ({ ids, data, basePath, genres }) => (
                 <RichTextField record={data[id]} source="overview" addLabel={false} />
             </CardContent>
             <CardActions style={{ textAlign: 'right' }}>
-                <Button>More</Button>
+                <Button>Details</Button>
             </CardActions>
         </Card>
     )}
@@ -66,41 +65,51 @@ MovieGrid.defaultProps = {
 
 class MovieList extends List {
 
-    state = {}
+    state = {isLoading: true};
 
     componentDidMount() {
 
-        const { push, showNotification } = this.props;
+        const { push } = this.props;
 
         dataProvider(GET_LIST, 'genres')
             .then((result) => {
-                this.setState({ genres: result.data });
-                showNotification('Genre data is ready');
+                this.setState({ genres: result.data, isLoading: false });
             })
             .catch( (e) => {
                 console.log(e);
-                showNotification('Error: Cannot load Genres', 'warning');
             });
-
-        //movies data already provided from List in the react-admin framework
     }
 
-    render() {
-        const { genres } = this.state;
+    renderMovieGrid(genres) {
         return (
             <List title="All Movies" {...this.props}>
                 <MovieGrid genres={genres} />
             </List>
-        )
+        );
+    }
+
+    renderLoading() {
+        return (
+            <Loading key="loading-movie-list" loadingSecondary="Loading..." />
+        );
+    }
+
+    render() {
+        const { genres, isLoading } = this.state;
+        if (isLoading) {
+            return this.renderLoading();
+        } else if (genres.length > 0) {
+            return this.renderMovieGrid(genres);
+        } else {
+            return (<div><h2>Error</h2></div>);
+        }
     }
 }
 
 MovieList.propTypes = {
     push: PropTypes.func,
-    showNotification: PropTypes.func,
 };
 
 export default connect(null, {
-    showNotification: showNotificationAction,
     push: pushAction,
 })(MovieList);
