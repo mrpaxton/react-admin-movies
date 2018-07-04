@@ -9,7 +9,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import { GET_LIST, List, Loading } from 'react-admin';
-import { TextField, DateField, RichTextField, SingleFieldList } from 'react-admin';
+import { TextField, DateField, RichTextField, SingleFieldList, ShowButton } from 'react-admin';
 
 import PropTypes from 'prop-types';
 import { push as pushAction } from 'react-router-redux';
@@ -32,7 +32,7 @@ const cardMediaStyle = {
     zIndex: 99
 };
 
-const MovieGrid = ({ ids, data, basePath, genres }) => (
+const MovieGrid = ({ ids, data, basePath, push, genres }) => (
     <div style={{ margin: '1em' }}>
     {ids.map(id =>
         <Card key={id} style={cardStyle}>
@@ -50,7 +50,7 @@ const MovieGrid = ({ ids, data, basePath, genres }) => (
                 <RichTextField record={data[id]} source="overview" addLabel={false} />
             </CardContent>
             <CardActions style={{ textAlign: 'right' }}>
-                <Button>Details</Button>
+                <ShowButton basePath={basePath} record={data[id]} source="id">Details</ShowButton>
             </CardActions>
         </Card>
     )}
@@ -69,8 +69,6 @@ class MovieList extends List {
 
     componentDidMount() {
 
-        const { push } = this.props;
-
         dataProvider(GET_LIST, 'genres')
             .then((result) => {
                 this.setState({ genres: result.data, isLoading: false });
@@ -80,10 +78,10 @@ class MovieList extends List {
             });
     }
 
-    renderMovieGrid(genres) {
+    renderMovieGrid(push, genres) {
         return (
             <List title="All Movies" {...this.props}>
-                <MovieGrid genres={genres} />
+                <MovieGrid push={push} genres={genres} />
             </List>
         );
     }
@@ -95,11 +93,14 @@ class MovieList extends List {
     }
 
     render() {
+
+        const { push } = this.props;
         const { genres, isLoading } = this.state;
+
         if (isLoading) {
             return this.renderLoading();
         } else if (genres.length > 0) {
-            return this.renderMovieGrid(genres);
+            return this.renderMovieGrid(push, genres);
         } else {
             return (<div><h2>Error</h2></div>);
         }
