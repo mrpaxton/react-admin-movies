@@ -1,16 +1,21 @@
 
-
 import React from 'react';
-import { Show, List, DateField, NumberField, RichTextField, TextField, ImageField, TabbedShowLayout, Tab, ReferenceArrayField, SingleFieldList } from 'react-admin';
+import {
+    Show,
+    List,
+    DateField,
+    NumberField,
+    RichTextField,
+    TextField,
+    ImageField,
+    TabbedShowLayout,
+    Tab,
+    ReferenceArrayField,
+    SingleFieldList
+} from 'react-admin';
 
-//import Card from '@material-ui/core/Card';
-//import CardMedia from '@material-ui/core/CardMedia';
-//import CardActions from '@material-ui/core/CardActions';
-//import CardContent from '@material-ui/core/CardContent';
-//import CardHeader from '@material-ui/core/CardHeader';
 
-
-export const MovieShow = (props) => (
+const MovieShow = (props) => (
     <Show title="Movie Details" {...props}>
         <TabbedShowLayout>
             <Tab label="summary">
@@ -33,3 +38,5 @@ export const MovieShow = (props) => (
         </TabbedShowLayout>
     </Show>
 );
+
+export default MovieShow;
