@@ -9,6 +9,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import { GET_LIST, List, Loading, TextField, DateField, RichTextField, SingleFieldList, ShowButton } from 'react-admin';
+import Avatar from '@material-ui/core/Avatar';
 import themoviedbDataProvider from './themoviedbDataProvider';
 
 
@@ -28,7 +29,6 @@ const cardMediaStyle = {
     zIndex: 9
 };
 
-                    //<TextField record={movie} source="vote_average" />
 
 const MovieGrid = ({basePath, movies=[], genres=[]}) => (
     <div style={{ margin: '1.5em' }}>
@@ -40,9 +40,12 @@ const MovieGrid = ({basePath, movies=[], genres=[]}) => (
                 <CardContent>
                     <Typography variant='subheading' color='secondary'>{movie.vote_average}</Typography>
                     {movie.genre_ids.map( genre_id =>
-                        <Chip key={genre_id} label={ genres.find(g => (g.id == genre_id)).name } />
+                        <Chip key={genre_id} label={ genres.find(g => (g.id === genre_id)).name } />
                     )}
                     <RichTextField record={movie} source="overview" />
+                    <Avatar src="https://robohash.org/yoyo?size=150x150" />
+                    <Avatar src="https://robohash.org/yoyo?size=150x150" />
+                    <Avatar src="https://robohash.org/yoyo?size=150x150" />
                 </CardContent>
                 <CardActions >
                     <ShowButton label="Details" basePath={basePath} record={movie} ></ShowButton>
@@ -57,7 +60,6 @@ MovieGrid.defaultProps = {
     genres: [],
 }
 
-
 const withGenreData = MovieList =>
 
     class extends React.Component {
@@ -70,15 +72,17 @@ const withGenreData = MovieList =>
 
             dataProvider(GET_LIST, 'movies')
                 .then((result) => result.data)
-                .then((movies) => movies.map((movie) => Object.assign({}, {
-                    id: movie.id,
-                    title: movie.title,
-                    image_path: movie.image_path,
-                    release_date: movie.release_date,
-                    overview: movie.overview,
-                    vote_average: movie.vote_average,
-                    genre_ids: movie.genre_ids,
-                })))
+                .then((movies) => movies.map((movie) => {
+                    return Object.assign({}, {
+                        id: movie.id,
+                        title: movie.title,
+                        image_path: movie.image_path,
+                        release_date: movie.release_date,
+                        overview: movie.overview,
+                        vote_average: movie.vote_average,
+                        genre_ids: movie.genre_ids,
+                    })
+                }))
                 .then((movies) => {
                     this.setState({ movies: movies });
                     dataProvider(GET_LIST, 'genres')
@@ -106,6 +110,8 @@ const MovieList = (props) => {
             <Loading key="loading-movies" loadingSecondary="Movie info will be ready shortly" />
         );
     } else if (movies.length > 0 && genres.length > 0) {
+        console.log("movies: ");
+        console.log(movies);
         return (
             <List title="All Movies" {...props}>
                 <MovieGrid movies={movies} genres={genres} />

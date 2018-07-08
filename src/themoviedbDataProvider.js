@@ -31,8 +31,14 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
             let query = {
                 api_key: API_KEY
             }
-            console.log("in genres request conversion call in dataProvider" + `${API_URL}/3/genre/movie/list?${stringify(query)}` );
             return { url: `${API_URL}/3/genre/movie/list?${stringify(query)}` };
+        } else if (resource === 'casts') {
+            let query = {
+                api_key: API_KEY
+            }
+            console.log("in casts request conversion call in dataProvider" + `${API_URL}/3/movie/${params.movie_id}/casts?${stringify(query)}` );
+            return { url: `${API_URL}/3/movie/${params.movie_id}/casts?${stringify(query)}` };
+
         }
     }
 
@@ -70,10 +76,16 @@ const convertHTTPResponseToDataProvider = (response, type, resource, params) => 
                 total: json.results.length,
             };
         } else if (resource === 'genres') {
-            console.log("in genres dataProvider call");
             return {
                 data: json.genres,
                 total: json.genres.length
+            }
+        } else if (resource === 'casts') {
+            console.log("in casts dataProvider call, params:");
+            console.log(params);
+            return {
+                data: json.casts,
+                total: json.casts.length
             }
         }
     }
