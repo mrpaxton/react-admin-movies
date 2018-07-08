@@ -81,12 +81,13 @@ const convertHTTPResponseToDataProvider = (response, type, resource, params) => 
                 total: json.genres.length
             }
         } else if (resource === 'casts') {
-            console.log("in casts dataProvider call, params:");
-            console.log(params);
             return {
-                data: json.casts,
-                total: json.casts.length
-            }
+                data: json.cast.map( x => ({
+                    ...x,
+                    ...{"profile_path": "http://image.tmdb.org/t/p/w92" + x.profile_path}
+                })),
+                total: json.cast.length,
+            };
         }
     }
     case GET_ONE: {

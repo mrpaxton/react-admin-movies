@@ -9,7 +9,6 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import { GET_LIST, List, Loading, TextField, DateField, RichTextField, SingleFieldList, ShowButton } from 'react-admin';
-import Avatar from '@material-ui/core/Avatar';
 import themoviedbDataProvider from './themoviedbDataProvider';
 
 
@@ -43,9 +42,6 @@ const MovieGrid = ({basePath, movies=[], genres=[]}) => (
                         <Chip key={genre_id} label={ genres.find(g => (g.id === genre_id)).name } />
                     )}
                     <RichTextField record={movie} source="overview" />
-                    <Avatar src="https://robohash.org/yoyo?size=150x150" />
-                    <Avatar src="https://robohash.org/yoyo?size=150x150" />
-                    <Avatar src="https://robohash.org/yoyo?size=150x150" />
                 </CardContent>
                 <CardActions >
                     <ShowButton label="Details" basePath={basePath} record={movie} ></ShowButton>

@@ -13,7 +13,41 @@ import {
     ReferenceArrayField,
     SingleFieldList
 } from 'react-admin';
+import Avatar from '@material-ui/core/Avatar';
+import themoviedbDataProvider from './themoviedbDataProvider';
 
+
+const withCastData = MovieShow =>
+
+    class extends React.Component {
+
+        state = { isLoading: true, casts: [] };
+
+        componentDidMount() {
+
+            const { match } = this.props;
+
+            console.log("in show view, match.params.id: ");
+            console.log(match.params.id);
+
+            const dataProvider = themoviedbDataProvider;
+
+            dataProvider('GET_LIST', 'casts', { movie_id: match.params.id })
+                .then(result => result.data)
+                .then(casts => {
+                    this.setState({casts: casts});
+                })
+
+        }
+
+        render() {
+            console.log("after getting casts: ");
+            console.log(this.state);
+            return (
+                <MovieShow {...this.props} />
+            );
+        }
+    }
 
 const MovieShow = (props) => (
     <Show title="Movie Details" {...props}>
@@ -25,6 +59,9 @@ const MovieShow = (props) => (
                 <TextField source="tagline" />
                 <DateField label="Release Date" source="release_date"
                     options={{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }}  />
+                <Avatar src="https://robohash.org/yoyo?size=150x150" />
+                <Avatar src="https://robohash.org/yoyo?size=150x150" />
+                <Avatar src="https://robohash.org/yoyo?size=150x150" />
             </Tab>
             <Tab label="body">
                 <RichTextField source="overview" addLabel={false} />
@@ -39,4 +76,4 @@ const MovieShow = (props) => (
     </Show>
 );
 
-export default MovieShow;
+export default withCastData(MovieShow);
