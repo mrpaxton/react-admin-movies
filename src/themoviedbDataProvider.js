@@ -23,7 +23,7 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
                 language: LANGUAGE,
                 sort_by: "revenue.desc",
                 page: 1,
-                "primary_release_date.gte": "2017-01-01",
+                "primary_release_date.gte": "2015-01-01",
                 "primary_release_date.lte": "2018-12-31",
             }
             return { url: `${API_URL}/3/discover/movie?${stringify(query)}` };
