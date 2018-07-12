@@ -5,6 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 
+//import { VictoryBar } from 'victory';
+import { PopularityChart, VoteAverageChart } from './VictoryCharts';
 
 class Dashboard extends React.Component {
 
@@ -20,9 +22,11 @@ class Dashboard extends React.Component {
         const { price } = this.state;
         return (
             <Card>
-                <CardHeader title="Movie Stats for Movie Lovers :)" />
-                <CardContent>This is an example of a dashboard using react-admin</CardContent>
+                <CardHeader title="Coz movies are fun :)" />
+                <CardContent>A movie dashboard using react-admin</CardContent>
                 <Typography>{ price || "Data Retrieval Error" }</Typography>
+                <VoteAverageChart />
+                <PopularityChart />
             </Card>
         );
     }
