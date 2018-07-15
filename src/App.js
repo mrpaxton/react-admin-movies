@@ -10,13 +10,14 @@ import { GenreList } from './genres';
 import Menu from './Menu';
 import customRoutes from './customRoutes';
 import authProvider from './authProvider';
-
 import themoviedbDataProvider from './themoviedbDataProvider';
+import refreshedMovies from './refreshedMoviesReducer';
 
 const dataProvider = themoviedbDataProvider;
 
+
 const App = () => (
-    <Admin menu={Menu} authProvider={authProvider} customRoutes={customRoutes} dataProvider={dataProvider}>
+    <Admin customReducers={{ refreshedMovies }} menu={Menu} authProvider={authProvider} customRoutes={customRoutes} dataProvider={dataProvider}>
         <Resource name="movies" list={MovieList} show={MovieShow} />
         <Resource name="genres" list={GenreList} />
     </Admin>

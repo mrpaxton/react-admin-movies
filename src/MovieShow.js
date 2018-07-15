@@ -101,6 +101,7 @@ const MovieShow = (props) => {
                                 className={classNames(classes.avatar, classes.bigAvatar)}
                             />
                             <Typography variant="subheading" color="default">{cast.name}</Typography>
+                            <Typography variant="subheading" color="default">as {cast.character}</Typography>
                         </div>
                     ))}
                 </Tab>
@@ -118,7 +119,7 @@ const MovieShow = (props) => {
     );
     } else {
         return (
-            <Loading loadingSecondary="Hang on one sec." />
+            <Loading />
         );
     };
 };
