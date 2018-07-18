@@ -11,7 +11,8 @@ import {
     TabbedShowLayout,
     Tab,
     ReferenceArrayField,
-    SingleFieldList
+    SingleFieldList,
+    SimpleShowLayout,
 } from 'react-admin';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -19,26 +20,25 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import Avatar from '@material-ui/core/Avatar';
-import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
-import List from '@material-ui/core/List';
 import themoviedbDataProvider from './themoviedbDataProvider';
+import compose from 'recompose/compose';
 
 
-const withCastData = MovieShow =>
+const withCastData = MovieShow => (
 
     class extends React.Component {
 
-        state = { isLoading: true, casts: [] };
+        state = { isLoading: true, cast: [] };
 
         componentDidMount() {
 
             const { match } = this.props;
             const dataProvider = themoviedbDataProvider;
+            this.setState({isLoading: true});
             dataProvider('GET_LIST', 'casts', { movie_id: match.params.id })
                 .then(result => result.data)
-                .then(casts => {
-                    this.setState({casts: casts, isLoading: false});
+                .then(cast => {
+                    this.setState({cast: cast, isLoading: false});
                 });
         }
 
@@ -48,64 +48,57 @@ const withCastData = MovieShow =>
             );
         }
     }
-
+);
 
 const styles = {
-  castCard: {
-    display: 'inline-block',
-    border: 'none',
-    padding: '0.2em',
-    margin: '0.5em',
+  //override the style of Tab by using style={styles.tab} in <Tab ...>
+  tab: {
+      padding: '2em 1em 1em 1em'
   },
-  row: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  avatar: {
-    margin: 10,
-  },
-  bigAvatar: {
-    width: 80,
-    height: 80,
-  },
-  summaryCardStyles: {
-    minHeight: 700,
-    zIndex: 99,
-  },
+  //overriding image style of the ImageField by passing prop classes={classes} in <ImageField ...>
   image: {
-    maxHeight: 700,
+    margin: '1rem',
+    maxHeight: '30rem',
+    maxWidth: '25%',
   },
 };
 
+const MovieTitle = ({ record }) => (
+    <span>{record ? `${record.title}` : ''}</span>
+);
 
 const MovieShow = (props) => {
-    const { match, classes, isLoading, casts } = props;
 
-    if (!isLoading) {
-    return (
-        <Show title="Movie Details" {...props}>
-            <TabbedShowLayout>
-                <Tab label="summary">
-                    <ImageField source="image_path" classes={classes} />
-                    <TextField source="id" />
-                    <TextField source="title" />
-                    <TextField source="tagline" />
+    const { match, classes, isLoading, cast, record } = props;
+
+    //hacky es6 way to drop image or tab from classes
+    const { image, ...tabClasses } = classes;
+    const { tab, ...imageClasses } = classes;
+
+    return isLoading ? <Loading /> : (
+        <Show title={<MovieTitle />} {...props}>
+            <TabbedShowLayout classes={tabClasses} >
+                <Tab label="Summary" >
+                    <ImageField source="image_path" classes={imageClasses} />
+                    <TextField source="tagline" addLabel={false} style={{color: 'purple', fontSize: '2rem'}} />
                     <DateField label="Release Date" source="release_date"
                         options={{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }}  />
                     <Divider />
-                    {casts.slice(0, 5).map(cast => (
-                        <div className={classes.castCard}>
+                    { cast.slice(0, 7).map( celeb => (
+                        <div style={{display: 'inline-block', float: 'left', padding: '1em'}} key={"Celeb-Avatar-" + celeb.id} >
                             <Avatar
-                                alt={cast.character}
-                                src={cast.profile_path}
-                                className={classNames(classes.avatar, classes.bigAvatar)}
+                                alt={celeb.character}
+                                src={celeb.profile_path}
+                                style={{width: '75px', height: '75px' }}
                             />
-                            <Typography variant="subheading" color="default">{cast.name}</Typography>
-                            <Typography variant="subheading" color="default">as {cast.character}</Typography>
+                            <Typography variant="title" color="primary">{celeb.name}</Typography>
+                            <Typography variant="subheading" color="textSecondary">
+                                {celeb.character ? `as ${celeb.character}` : `No character info`}
+                            </Typography>
                         </div>
-                    ))}
+                    )) }
                 </Tab>
-                <Tab label="body">
+                <Tab label="Overview">
                     <RichTextField source="overview" addLabel={false} />
                 </Tab>
                 <Tab label="Stats">
@@ -117,15 +110,14 @@ const MovieShow = (props) => {
             </TabbedShowLayout>
         </Show>
     );
-    } else {
-        return (
-            <Loading />
-        );
-    };
 };
 
-MovieShow.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
+//MovieShow.propTypes = {
+    //classes: PropTypes.object.isRequired,
+//};
 
-export default withCastData(withStyles(styles)(MovieShow));
+const enhance = compose(
+    withStyles(styles),
+);
+
+export default withCastData(enhance(MovieShow));

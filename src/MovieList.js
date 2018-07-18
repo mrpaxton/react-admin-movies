@@ -1,24 +1,21 @@
 
-import React, { Component } from 'react';
+import React from 'react';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardActions from '@material-ui/core/CardActions';
 import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
-import { GET_LIST, List, Loading, TextField, DateField, RichTextField, SingleFieldList, ShowButton } from 'react-admin';
+import { GET_LIST, List, Loading, RichTextField, ShowButton } from 'react-admin';
 import themoviedbDataProvider from './themoviedbDataProvider';
-
-
 import { connect } from 'react-redux';
 import ReleaseDatePicker from './ReleaseDatePicker';
 
 
 const cardStyle = {
     width: 400,
-    minHeight: 700 ,
+    minHeight: 800 ,
     margin: '0.5em',
     display: 'inline-block',
     verticalAlign: 'top'
@@ -27,9 +24,9 @@ const cardStyle = {
 const cardMediaStyle = {
     margin: 'auto',
     display: 'block',
-    width: '80%',
-    height: 300,
-    zIndex: 9
+    width: '100%',
+    height: 500,
+    zIndex: 5
 };
 
 
@@ -41,7 +38,7 @@ const MovieGrid = ({basePath, movies=[], genres=[]}) => (
                 <CardHeader
                     title={movie.title} subheader={movie.release_date} />
                 <CardContent>
-                    <Typography variant='subheading' color='tertiary'>{movie.vote_average}</Typography>
+                    <Typography variant='caption' color='textSecondary'>{movie.vote_average}</Typography>
                     {movie.genre_ids.map( genre_id =>
                         <Chip key={genre_id} label={ genres.find(g => (g.id === genre_id)).name } />
                     )}
@@ -71,7 +68,7 @@ const withGenreData = MovieList =>
             const dataProvider = themoviedbDataProvider;
 
             //Call the dataProvider to get movies first time only
-            if (this.state.movies.length == 0) {
+            if (this.state.movies.length === 0 && this.state.release_date_after) {
                 dataProvider(GET_LIST, 'movies', {release_date_after: this.state.release_date_after })
                     .then((result) => result.data)
                     .then((movies) => movies.map(moviesDataMapper))
@@ -96,7 +93,7 @@ const withGenreData = MovieList =>
             return (
                 <div>
                     <ReleaseDatePicker />
-                    <MovieList {...this.props} {...this.state} movies={movies.length == 0 ? this.state.movies : movies } />
+                    <MovieList {...this.props} {...this.state} movies={movies.length === 0 ? this.state.movies : movies } />
                 </div>
             );
         }
@@ -137,7 +134,7 @@ const moviesDataMapper = movie => Object.assign({}, {
 });
 
 const mapStateToProps = state => ({
-        movies: !state.refreshedMovies.data ? [] : state.refreshedMovies.data.map(moviesDataMapper)
+    movies: !state.refreshedMovies.data ? [] : state.refreshedMovies.data.map(moviesDataMapper)
 });
 
 export default connect(mapStateToProps, {} )(withGenreData(MovieList));
