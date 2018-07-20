@@ -34,7 +34,6 @@ const withCastData = MovieShow => (
 
             const { match } = this.props;
             const dataProvider = themoviedbDataProvider;
-            this.setState({isLoading: true});
             dataProvider('GET_LIST', 'casts', { movie_id: match.params.id })
                 .then(result => result.data)
                 .then(cast => {
@@ -50,16 +49,18 @@ const withCastData = MovieShow => (
     }
 );
 
+
 const styles = {
   //override the style of Tab by using style={styles.tab} in <Tab ...>
   tab: {
-      padding: '2em 1em 1em 1em'
+      padding: '2em 1em 1em 2em'
   },
   //overriding image style of the ImageField by passing prop classes={classes} in <ImageField ...>
   image: {
-    margin: '1rem',
+    margin: '0.5rem',
+    width: '300px',
     maxHeight: '30rem',
-    maxWidth: '25%',
+    maxWidth: '30%',
   },
 };
 
@@ -71,25 +72,23 @@ const MovieShow = (props) => {
 
     const { match, classes, isLoading, cast, record } = props;
 
-    //hacky es6 way to drop image or tab from classes
-    const { image, ...tabClasses } = classes;
-    const { tab, ...imageClasses } = classes;
-
     return isLoading ? <Loading /> : (
         <Show title={<MovieTitle />} {...props}>
-            <TabbedShowLayout classes={tabClasses} >
+            <TabbedShowLayout classes={{tab: classes.tab}} >
                 <Tab label="Summary" >
-                    <ImageField source="image_path" classes={imageClasses} />
-                    <TextField source="tagline" addLabel={false} style={{color: 'purple', fontSize: '2rem'}} />
+                    <ImageField source="image_path" classes={{ image: classes.image }} />
+                    <TextField source="tagline" addLabel={false}
+                        style={{color: 'purple', fontSize: '1.5rem'}} />
                     <DateField label="Release Date" source="release_date"
                         options={{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }}  />
                     <Divider />
-                    { cast.slice(0, 7).map( celeb => (
-                        <div style={{display: 'inline-block', float: 'left', padding: '1em'}} key={"Celeb-Avatar-" + celeb.id} >
+                    { cast.slice(0, 5).map( celeb => (
+                        <div style={{display: 'inline-block', float: 'left', padding: '1em'}}
+                            key={"Celeb-Avatar-" + celeb.id} >
                             <Avatar
                                 alt={celeb.character}
                                 src={celeb.profile_path}
-                                style={{width: '75px', height: '75px' }}
+                                style={{width: '70px', height: '70px' }}
                             />
                             <Typography variant="title" color="primary">{celeb.name}</Typography>
                             <Typography variant="subheading" color="textSecondary">

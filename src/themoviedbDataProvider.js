@@ -14,38 +14,46 @@ const LANGUAGE = 'en-US';
  * @returns {Object} { url, options } The HTTP request parameters
  */
 const convertDataProviderRequestToHTTP = (type, resource, params) => {
+
     switch (type) {
 
     case GET_LIST: {
-        if (resource === 'movies') {
-            let query = {
+        if (resource === 'movies' && !params.query) {
+            const query = {
                 api_key: API_KEY,
                 language: LANGUAGE,
                 sort_by: "revenue.desc",
-                page: 1,
+                page: params.page || 1,
                 "primary_release_date.gte":
                     params && params.release_date_after ?
                         params.release_date_after :
                         (new Date()).toISOString().split("T")[0],
             }
             return { url: `${API_URL}/3/discover/movie?${stringify(query)}` };
+        } else if (resource === 'movies' && params.query) {
+            const query = {
+                api_key: API_KEY,
+                language: LANGUAGE,
+                page: params.page || 1,
+                query: params.query,
+            }
+            return { url: `${API_URL}/3/search/movie?${stringify(query)}` };
+
         } else if (resource === 'genres') {
-            let query = {
+            const query = {
                 api_key: API_KEY
             }
             return { url: `${API_URL}/3/genre/movie/list?${stringify(query)}` };
         } else if (resource === 'casts') {
-            let query = {
+            const query = {
                 api_key: API_KEY
             }
-            console.log("in casts request conversion call in dataProvider" + `${API_URL}/3/movie/${params.movie_id}/casts?${stringify(query)}` );
             return { url: `${API_URL}/3/movie/${params.movie_id}/casts?${stringify(query)}` };
-
         }
     }
 
     case GET_ONE: {
-        let query = {
+        const query = {
             api_key: API_KEY
         }
         return { url: `${API_URL}/3/movie/${params.id}?${stringify(query)}` };
@@ -54,7 +62,6 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
     default:
         throw new Error(`Unsupported fetch action type ${type}`);
     }
-
 };
 
 
