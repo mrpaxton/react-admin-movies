@@ -6,13 +6,14 @@ import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardActions from '@material-ui/core/CardActions';
 import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import { GET_LIST, List, Loading, RichTextField, ShowButton } from 'react-admin';
 import themoviedbDataProvider from './themoviedbDataProvider';
 import { connect } from 'react-redux';
 import ReleaseDatePicker from './ReleaseDatePicker';
 import { Filter, TextInput } from 'react-admin';
-
+import RefreshMoviesAction from './RefreshMoviesAction';
 const queryString = require('query-string');
 
 
@@ -32,8 +33,9 @@ const cardMediaStyle = {
     zIndex: 5
 };
 
-const MovieGrid = ({basePath, movies=[], genres=[]}) => (
+const MovieGrid = ({refreshMovies, basePath, movies=[], genres=[]}) => (
     <div style={{ margin: '1em' }}>
+        <Button onClick={refreshMovies}>Refresh Movies</Button>
         {movies.map(movie => (
             <Card key={movie.id} style={cardStyle}>
                 <CardMedia style={cardMediaStyle} image={movie.image_path} />
@@ -62,44 +64,38 @@ MovieGrid.defaultProps = {
 
 const withGenreData = MovieList =>
 
-    class extends List{
+    class extends List {
 
-        state = {isLoading: true, genres: [], movies: [], release_date_after: "2013-01-01" };
+        DEFAULT_RELEASE_DATE_FILTER = "2012-01-01";
+        state = {isLoading: true, genres: [], release_date_after: this.DEFAULT_RELEASE_DATE_FILTER };
 
-        updateMovies(params = {}) {
+        updateMovies(params = {release_date_after: this.state.release_date_after} ) {
 
+            const { refreshMovies } = this.props;
             const dataProvider = themoviedbDataProvider;
-            const { page, query } = params;
+
+            //dispatch action to refresh movies
+            refreshMovies(params);
 
             this.setState({isLoading: true});
-            //Call the dataProvider to get movies first time only
-            //if (this.state.movies.length === 0 && this.state.release_date_after) {
-                dataProvider(GET_LIST, 'movies', {page: page || 1, query: query, release_date_after: this.state.release_date_after })
-                    .then((result) => result.data)
-                    .then((movies) => movies.map(moviesDataMapper))
-                    .then((movies) => {
-                        console.log("In container after fetching api data: ");
-                        console.log(movies);
-                        this.setState({ movies: movies });
-                        dataProvider(GET_LIST, 'genres')
-                            .then((result) => {
-                                this.setState({ genres: result.data, isLoading: false });
-                            }, (error) => {
-                                console.log("Data Provider Error: " + error);
-                            })
-                            .catch( (e) => {
-                                console.log(e);
-                            });
-                    });
-            //}
+            dataProvider(GET_LIST, 'genres')
+                .then((result) => {
+                    this.setState({ genres: result.data, isLoading: false });
+                }, (error) => {
+                    console.error("Genre Info Error: " + error);
+                })
+                .catch( (e) => {
+                    console.error(e);
+                });
         }
 
         componentWillReceiveProps(nextProps) {
+            //observe query: if there's a change in search query in props, update movies
             if ( JSON.stringify( this.props.location.search ) !==
                  JSON.stringify( nextProps.location.search )) {
                 const query = queryString.parse(nextProps.location.search);
                 if (query.filter) {
-                    const queryFilter = JSON.parse(query.filter)
+                    const queryFilter = JSON.parse(query.filter);
                     this.updateMovies({ query: queryFilter.q });
                 }
             }
@@ -110,34 +106,39 @@ const withGenreData = MovieList =>
         }
 
         render() {
-            //Extract the movies updated by the redux's store, the updated value from the reducer
-            const { movies } = this.props;
+            //local state contains genre info
+            //props has updated movies from reducer from Redux store
             return (
                 <div>
                     <ReleaseDatePicker />
-                    <MovieList {...this.props} {...this.state}
-                        movies={movies.length === 0 ? this.state.movies : movies } />
+                    <MovieList {...this.props} {...this.state} refreshMovies={this.props.refreshMovies} />
                 </div>
             );
         }
     }
 
+
 const MovieFilter = (props) => (
+
     <Filter {...props}>
         <TextInput label="Search Movies" source="q" alwaysOn />
     </Filter>
+
 );
 
+
 const MovieList = (props) => {
+
     const { isLoading, genres, movies } = props;
+
     if (isLoading) {
         return (
             <Loading key="loading-movies" />
         );
     } else if (movies.length > 0 && genres.length > 0) {
         return (
-            <List title="All Movies" filters={<MovieFilter />} {...props}>
-                <MovieGrid movies={movies} genres={genres} />
+            <List title="All Movies" filters={<MovieFilter />} {...props} >
+                <MovieGrid refreshMovies={props.refreshMovies} movies={movies} genres={genres} />
             </List>
         );
     } else {
@@ -145,7 +146,9 @@ const MovieList = (props) => {
             <Typography>Cannot load movies. Try again later!</Typography>
         );
     }
+
 };
+
 
 const moviesDataMapper = movie => Object.assign({}, {
     id: movie.id,
@@ -157,8 +160,11 @@ const moviesDataMapper = movie => Object.assign({}, {
     genre_ids: movie.genre_ids,
 });
 
+
 const mapStateToProps = state => ({
     movies: !state.refreshedMovies.data ? [] : state.refreshedMovies.data.map(moviesDataMapper)
 });
 
-export default connect(mapStateToProps, {} )(withGenreData(MovieList));
+const mapActionsToProps = { refreshMovies: RefreshMoviesAction };
+
+export default connect(mapStateToProps, mapActionsToProps)(withGenreData(MovieList));

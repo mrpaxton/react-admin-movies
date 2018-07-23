@@ -1,11 +1,13 @@
 
 import { GET_LIST, GET_ONE } from 'react-admin';
 import { fetchUtils } from 'react-admin';
-import { stringify } from 'query-string';
+//import { stringify } from 'query-string';
 
 const API_URL = 'https://api.themoviedb.org';
 const API_KEY = '91dd36dcc51c92862485f14714c32742';
 const LANGUAGE = 'en-US';
+
+const queryString = require('query-string');
 
 /**
  * @param {String} type One of the constants appearing at the top if this file, e.g. 'UPDATE'
@@ -19,6 +21,7 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
 
     case GET_LIST: {
         if (resource === 'movies' && !params.query) {
+            console.log("in movies no params query");
             const query = {
                 api_key: API_KEY,
                 language: LANGUAGE,
@@ -29,7 +32,7 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
                         params.release_date_after :
                         (new Date()).toISOString().split("T")[0],
             }
-            return { url: `${API_URL}/3/discover/movie?${stringify(query)}` };
+            return { url: `${API_URL}/3/discover/movie?${queryString.stringify(query)}` };
         } else if (resource === 'movies' && params.query) {
             const query = {
                 api_key: API_KEY,
@@ -37,18 +40,17 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
                 page: params.page || 1,
                 query: params.query,
             }
-            return { url: `${API_URL}/3/search/movie?${stringify(query)}` };
-
+            return { url: `${API_URL}/3/search/movie?${queryString.stringify(query)}` };
         } else if (resource === 'genres') {
             const query = {
                 api_key: API_KEY
             }
-            return { url: `${API_URL}/3/genre/movie/list?${stringify(query)}` };
+            return { url: `${API_URL}/3/genre/movie/list?${queryString.stringify(query)}` };
         } else if (resource === 'casts') {
             const query = {
                 api_key: API_KEY
             }
-            return { url: `${API_URL}/3/movie/${params.movie_id}/casts?${stringify(query)}` };
+            return { url: `${API_URL}/3/movie/${params.movie_id}/casts?${queryString.stringify(query)}` };
         }
     }
 
@@ -56,7 +58,7 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
         const query = {
             api_key: API_KEY
         }
-        return { url: `${API_URL}/3/movie/${params.id}?${stringify(query)}` };
+        return { url: `${API_URL}/3/movie/${params.id}?${queryString.stringify(query)}` };
     }
 
     default:
@@ -77,26 +79,28 @@ const convertHTTPResponseToDataProvider = (response, type, resource, params) => 
     switch (type) {
     case GET_LIST: {
         if (resource === 'movies') {
-            return {
-                data: json.results.map( x => ({
-                    ...x,
-                    ...{"image_path": "http://image.tmdb.org/t/p/w342" + x.poster_path}
-                })),
+            return ({
+                data: json.results.map( x => {
+                    return ({
+                        ...x,
+                        ...{image_path: "http://image.tmdb.org/t/p/w342" + x.poster_path},
+                    });
+                }),
                 total: json.results.length,
-            };
+            });
         } else if (resource === 'genres') {
-            return {
+            return ({
                 data: json.genres,
                 total: json.genres.length
-            }
+            });
         } else if (resource === 'casts') {
-            return {
+            return ({
                 data: json.cast.map( x => ({
                     ...x,
                     ...{"profile_path": "http://image.tmdb.org/t/p/w92" + x.profile_path}
                 })),
                 total: json.cast.length,
-            };
+            });
         }
     }
     case GET_ONE: {
