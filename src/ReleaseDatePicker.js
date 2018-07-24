@@ -11,6 +11,7 @@ class DatePickerComponent extends Component {
     state = { date: new Date() };
 
     onChange = date => {
+
         if (date && date instanceof Date) {
             this.setState({ date });
         } else {
@@ -33,7 +34,6 @@ class DatePickerComponent extends Component {
     }
 }
 
-//TODO: to add more filters to the refreshMovies action
 export default connect(
     null, {
         refreshMovies: RefreshMoviesAction,

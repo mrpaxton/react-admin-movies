@@ -83,7 +83,7 @@ const convertHTTPResponseToDataProvider = (response, type, resource, params) => 
                 data: json.results.map( x => {
                     return ({
                         ...x,
-                        ...{image_path: "http://image.tmdb.org/t/p/w342" + x.poster_path},
+                        ...{image_path: x.poster_path ? "http://image.tmdb.org/t/p/w342" + x.poster_path : ""},
                     });
                 }),
                 total: json.results.length,

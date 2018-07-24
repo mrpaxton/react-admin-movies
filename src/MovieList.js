@@ -33,9 +33,9 @@ const cardMediaStyle = {
     zIndex: 5
 };
 
+//TODO: refresh button to handle the refreshMovies callback passed into the MovieGrid
 const MovieGrid = ({refreshMovies, basePath, movies=[], genres=[]}) => (
     <div style={{ margin: '1em' }}>
-        <Button onClick={refreshMovies}>Refresh Movies</Button>
         {movies.map(movie => (
             <Card key={movie.id} style={cardStyle}>
                 <CardMedia style={cardMediaStyle} image={movie.image_path} />
@@ -62,12 +62,16 @@ MovieGrid.defaultProps = {
 }
 
 
-const withGenreData = MovieList =>
+const withInitialData = MovieList =>
 
     class extends List {
 
         DEFAULT_RELEASE_DATE_FILTER = "2012-01-01";
-        state = {isLoading: true, genres: [], release_date_after: this.DEFAULT_RELEASE_DATE_FILTER };
+        state = {
+            isLoading: true,
+            genres: [],
+            release_date_after: this.DEFAULT_RELEASE_DATE_FILTER
+        };
 
         updateMovies(params = {release_date_after: this.state.release_date_after} ) {
 
@@ -77,6 +81,7 @@ const withGenreData = MovieList =>
             //dispatch action to refresh movies
             refreshMovies(params);
 
+            //get all genres only once and save to local state
             this.setState({isLoading: true});
             dataProvider(GET_LIST, 'genres')
                 .then((result) => {
@@ -90,6 +95,7 @@ const withGenreData = MovieList =>
         }
 
         componentWillReceiveProps(nextProps) {
+
             //observe query: if there's a change in search query in props, update movies
             if ( JSON.stringify( this.props.location.search ) !==
                  JSON.stringify( nextProps.location.search )) {
@@ -102,16 +108,18 @@ const withGenreData = MovieList =>
         }
 
         componentDidMount() {
+
             this.updateMovies();
         }
 
         render() {
-            //local state contains genre info
-            //props has updated movies from reducer from Redux store
+
+            //local state contains Genre info
+            //props has updated movies from the reducer from Redux store
             return (
                 <div>
                     <ReleaseDatePicker />
-                    <MovieList {...this.props} {...this.state} refreshMovies={this.props.refreshMovies} />
+                    <MovieList {...this.props} {...this.state} {...this.props.refreshMovies} />
                 </div>
             );
         }
@@ -136,9 +144,11 @@ const MovieList = (props) => {
             <Loading key="loading-movies" />
         );
     } else if (movies.length > 0 && genres.length > 0) {
+        //removing refreshMovies from props to prevent error in List
+        const { refreshMovies, ...restProps } = props;
         return (
-            <List title="All Movies" filters={<MovieFilter />} {...props} >
-                <MovieGrid refreshMovies={props.refreshMovies} movies={movies} genres={genres} />
+            <List title="All Movies" filters={<MovieFilter />} {...restProps} >
+                <MovieGrid refreshMovies={refreshMovies} movies={movies} genres={genres} />
             </List>
         );
     } else {
@@ -167,4 +177,4 @@ const mapStateToProps = state => ({
 
 const mapActionsToProps = { refreshMovies: RefreshMoviesAction };
 
-export default connect(mapStateToProps, mapActionsToProps)(withGenreData(MovieList));
+export default connect(mapStateToProps, mapActionsToProps)(withInitialData(MovieList));
