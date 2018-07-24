@@ -37,15 +37,15 @@ const cardMediaStyle = {
 
 //TODO: refresh button to handle the refreshMovies callback passed into the MovieGrid
 const MovieGrid = ({refreshMovies, basePath, movies=[], genres=[]}) => (
-    <div style={{ margin: '1em' }}>
+    <div style={{ margin: "1em" }}>
         {movies.map(movie => (
             <Card key={movie.id} style={cardStyle}>
                 <CardMedia style={cardMediaStyle} image={movie.image_path} />
                 <CardHeader
                     title={movie.title} subheader={movie.release_date} />
                 <CardContent>
-                    <FavoriteIcon style={{display:"inline-block"}} color="secondary" />
-                    <Typography variant='caption' color='textSecondary'>{movie.vote_average}</Typography>
+                    <FavoriteIcon color="secondary" style={{float: "left"}} />
+                    <Typography variant="subheading" align="left" style={{marginLeft: "30px"}} paragraph color='textSecondary'>{movie.vote_average}</Typography>
                     {movie.genre_ids.map( genre_id =>
                         <Chip key={genre_id} label={ genres.find(g => (g.id === genre_id)).name } />
                     )}
