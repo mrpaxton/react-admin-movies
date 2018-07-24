@@ -14,8 +14,10 @@ import { connect } from 'react-redux';
 import ReleaseDatePicker from './ReleaseDatePicker';
 import { Filter, TextInput } from 'react-admin';
 import RefreshMoviesAction from './RefreshMoviesAction';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 const queryString = require('query-string');
 
+//import PostIcon from '@material-ui/icons/Book';
 
 const cardStyle = {
     width: 400,
@@ -42,6 +44,7 @@ const MovieGrid = ({refreshMovies, basePath, movies=[], genres=[]}) => (
                 <CardHeader
                     title={movie.title} subheader={movie.release_date} />
                 <CardContent>
+                    <FavoriteIcon style={{display:"inline-block"}} color="secondary" />
                     <Typography variant='caption' color='textSecondary'>{movie.vote_average}</Typography>
                     {movie.genre_ids.map( genre_id =>
                         <Chip key={genre_id} label={ genres.find(g => (g.id === genre_id)).name } />

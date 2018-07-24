@@ -5,6 +5,7 @@
 import React from 'react';
 import { Admin, Resource } from 'react-admin';
 import MovieList from './MovieList';
+import { UserList } from './UserList';
 import MovieShow from './MovieShow';
 import { GenreList } from './genres';
 import Menu from './Menu';
@@ -17,9 +18,16 @@ const dataProvider = themoviedbDataProvider;
 
 
 const App = () => (
-    <Admin customReducers={{ refreshedMovies }} menu={Menu} authProvider={authProvider} customRoutes={customRoutes} dataProvider={dataProvider}>
+    <Admin
+        customReducers={{refreshedMovies}}
+        menu={Menu}
+        authProvider={authProvider}
+        customRoutes={customRoutes}
+        dataProvider={dataProvider}
+    >
         <Resource name="movies" list={MovieList} show={MovieShow} />
         <Resource name="genres" list={GenreList} />
+        <Resource name="users" list={UserList} />
     </Admin>
 );
 

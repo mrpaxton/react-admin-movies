@@ -14,5 +14,4 @@ export const UserList = (props) => (
             <EmailField source="email" />
         </Datagrid>
     </List>
-
 )

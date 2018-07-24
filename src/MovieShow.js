@@ -82,7 +82,7 @@ const MovieShow = (props) => {
                     <DateField label="Release Date" source="release_date"
                         options={{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }}  />
                     <Divider />
-                    { cast.slice(0, 5).map( celeb => (
+                    { cast.slice(0, 10).map( celeb => (
                         <div style={{display: 'inline-block', float: 'left', padding: '1em'}}
                             key={"Celeb-Avatar-" + celeb.id} >
                             <Avatar
