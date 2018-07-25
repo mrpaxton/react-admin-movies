@@ -26,8 +26,8 @@ class DatePickerComponent extends Component {
 
     render() {
         return (
-            <div>
-                <Typography>Movies from: </Typography>
+            <div style={{marginBottom: "20px"}} >
+                <Typography variant="subheading" color="primary">Release Date Filter</Typography>
                 <DatePicker onChange={this.onChange} value={this.state.date} />
             </div>
         );

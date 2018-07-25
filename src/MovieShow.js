@@ -10,9 +10,6 @@ import {
     Loading,
     TabbedShowLayout,
     Tab,
-    ReferenceArrayField,
-    SingleFieldList,
-    SimpleShowLayout,
 } from 'react-admin';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -70,7 +67,7 @@ const MovieTitle = ({ record }) => (
 
 const MovieShow = (props) => {
 
-    const { match, classes, isLoading, cast, record } = props;
+    const { classes, isLoading, cast } = props;
 
     return isLoading ? <Loading /> : (
         <Show title={<MovieTitle />} {...props}>

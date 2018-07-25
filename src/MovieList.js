@@ -6,7 +6,6 @@ import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardActions from '@material-ui/core/CardActions';
 import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import { GET_LIST, List, Loading, RichTextField, ShowButton } from 'react-admin';
 import themoviedbDataProvider from './themoviedbDataProvider';
@@ -15,9 +14,9 @@ import ReleaseDatePicker from './ReleaseDatePicker';
 import { Filter, TextInput } from 'react-admin';
 import RefreshMoviesAction from './RefreshMoviesAction';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import PostIcon from '@material-ui/icons/Book';
 const queryString = require('query-string');
 
-//import PostIcon from '@material-ui/icons/Book';
 
 const cardStyle = {
     width: 400,
@@ -40,16 +39,18 @@ const MovieGrid = ({refreshMovies, basePath, movies=[], genres=[]}) => (
     <div style={{ margin: "1em" }}>
         {movies.map(movie => (
             <Card key={movie.id} style={cardStyle}>
-                <CardMedia style={cardMediaStyle} image={movie.image_path} />
+                { movie.image_path && <CardMedia style={cardMediaStyle} image={movie.image_path} /> }
+                <PostIcon align="center" style={{float: "left", margin: "30px 0 0 12px"}} />
                 <CardHeader
                     title={movie.title} subheader={movie.release_date} />
                 <CardContent>
-                    <FavoriteIcon color="secondary" style={{float: "left"}} />
-                    <Typography variant="subheading" align="left" style={{marginLeft: "30px"}} paragraph color='textSecondary'>{movie.vote_average}</Typography>
+                    <FavoriteIcon color="primary" style={{float: "left"}} />
+                    <Typography variant="subheading" align="left" style={{marginLeft: "30px"}}
+                        paragraph color='textSecondary'>{movie.vote_average}</Typography>
                     {movie.genre_ids.map( genre_id =>
                         <Chip key={genre_id} label={ genres.find(g => (g.id === genre_id)).name } />
                     )}
-                    <RichTextField record={movie} source="overview" />
+                    <RichTextField style={{marginTop: "20px"}} record={movie} source="overview" />
                 </CardContent>
                 <CardActions >
                     <ShowButton label="Details" basePath={basePath} record={movie} ></ShowButton>
