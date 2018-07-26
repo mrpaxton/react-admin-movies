@@ -1,5 +1,6 @@
 
 import React from 'react';
+import StackGrid from 'react-stack-grid';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import CardContent from '@material-ui/core/CardContent';
@@ -13,14 +14,14 @@ import { connect } from 'react-redux';
 import ReleaseDatePicker from './ReleaseDatePicker';
 import { Filter, TextInput } from 'react-admin';
 import RefreshMoviesAction from './RefreshMoviesAction';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import PostIcon from '@material-ui/icons/Book';
+import SmileyIcon from '@material-ui/icons/SentimentSatisfied';
+import MovieIcon from '@material-ui/icons/Movie';
 const queryString = require('query-string');
 
 
 const cardStyle = {
     width: 400,
-    minHeight: 800 ,
+    minHeight: 700 ,
     margin: '0.5em',
     display: 'inline-block',
     verticalAlign: 'top'
@@ -36,28 +37,28 @@ const cardMediaStyle = {
 
 //TODO: refresh button to handle the refreshMovies callback passed into the MovieGrid
 const MovieGrid = ({refreshMovies, basePath, movies=[], genres=[]}) => (
-    <div style={{ margin: "1em" }}>
+    <StackGrid appearDelay={150} duration={700} columnWidth={400} gutterWidth={10} gutterHeight={5} >
         {movies.map(movie => (
             <Card key={movie.id} style={cardStyle}>
                 { movie.image_path && <CardMedia style={cardMediaStyle} image={movie.image_path} /> }
-                <PostIcon align="center" style={{float: "left", margin: "30px 0 0 12px"}} />
+                <MovieIcon align="center" style={{float: "left", margin: "30px 0 0 12px"}} />
                 <CardHeader
                     title={movie.title} subheader={movie.release_date} />
                 <CardContent>
-                    <FavoriteIcon color="primary" style={{float: "left"}} />
+                    <SmileyIcon style={{float: "left"}} />
                     <Typography variant="subheading" align="left" style={{marginLeft: "30px"}}
                         paragraph color='textSecondary'>{movie.vote_average}</Typography>
                     {movie.genre_ids.map( genre_id =>
                         <Chip key={genre_id} label={ genres.find(g => (g.id === genre_id)).name } />
                     )}
-                    <RichTextField style={{marginTop: "20px"}} record={movie} source="overview" />
+                    <RichTextField style={{marginTop: "20px"}} record={movie} source="short_overview" />
                 </CardContent>
                 <CardActions >
                     <ShowButton label="Details" basePath={basePath} record={movie} ></ShowButton>
                 </CardActions>
             </Card>
         ))}
-    </div>
+    </StackGrid>
 );
 
 MovieGrid.defaultProps = {
@@ -151,7 +152,7 @@ const MovieList = (props) => {
         //removing refreshMovies from props to prevent error in List
         const { refreshMovies, ...restProps } = props;
         return (
-            <List title="All Movies" filters={<MovieFilter />} {...restProps} >
+            <List title="All Movies" perPage={5} filters={<MovieFilter />} {...restProps} >
                 <MovieGrid refreshMovies={refreshMovies} movies={movies} genres={genres} />
             </List>
         );
@@ -170,6 +171,7 @@ const moviesDataMapper = movie => Object.assign({}, {
     image_path: movie.image_path,
     release_date: movie.release_date,
     overview: movie.overview,
+    short_overview: movie.short_overview,
     vote_average: movie.vote_average,
     genre_ids: movie.genre_ids,
 });

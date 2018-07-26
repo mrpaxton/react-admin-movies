@@ -6,6 +6,7 @@ const API_URL = 'https://api.themoviedb.org';
 const API_KEY = '91dd36dcc51c92862485f14714c32742';
 const LANGUAGE = 'en-US';
 const queryString = require('query-string');
+const truncate = require('truncate');
 
 /**
  * @param {String} type One of the constants appearing at the top if this file, e.g. 'UPDATE'
@@ -82,6 +83,8 @@ const convertHTTPResponseToDataProvider = (response, type, resource, params) => 
                     return ({
                         ...x,
                         ...{image_path: x.poster_path ? "http://image.tmdb.org/t/p/w342" + x.poster_path : ""},
+                        ...{short_overview: x.overview.length > 240
+                                ? truncate(x.overview, 240) : x.overview},
                     });
                 }),
                 total: json.results.length,
@@ -104,7 +107,7 @@ const convertHTTPResponseToDataProvider = (response, type, resource, params) => 
     case GET_ONE: {
         json["image_path"] = "http://image.tmdb.org/t/p/w500/" + json.poster_path
         return {
-            data: json
+            data: json.results
         };
     }
     default:
