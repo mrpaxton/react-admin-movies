@@ -12,7 +12,8 @@ const Menu = ({ resources, onMenuClick, logout }) => (
                 <MenuItemLink
                     key={i}
                     to={`/${resource.name}`}
-                    primaryText={resource.name.charAt(0).toUpperCase() + resource.name.substr(1)}
+                    primaryText={ resource.name.charAt(0).toUpperCase()
+                        + resource.name.substr(1)}
                     onClick={onMenuClick}
                 />
             ))

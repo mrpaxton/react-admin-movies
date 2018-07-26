@@ -1,12 +1,10 @@
 
 import { GET_LIST, GET_ONE } from 'react-admin';
 import { fetchUtils } from 'react-admin';
-//import { stringify } from 'query-string';
 
 const API_URL = 'https://api.themoviedb.org';
 const API_KEY = '91dd36dcc51c92862485f14714c32742';
 const LANGUAGE = 'en-US';
-
 const queryString = require('query-string');
 
 /**
@@ -21,11 +19,11 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
 
     case GET_LIST: {
         if (resource === 'movies' && !params.query) {
-            console.log("in movies no params query");
             const query = {
                 api_key: API_KEY,
                 language: LANGUAGE,
                 sort_by: "revenue.desc",
+                "vote_count.gte": 50,
                 page: params.page || 1,
                 "primary_release_date.gte":
                     params && params.release_date_after ?
