@@ -23,6 +23,11 @@ const Menu = ({ resources, onMenuClick, logout }) => (
             primaryText="Admin Dashboard"
             onClick={onMenuClick}
         />
+        <MenuItemLink
+            to="/test-chart"
+            primaryText="Test Chart"
+            onClick={onMenuClick}
+        />
     </div>
 );
 

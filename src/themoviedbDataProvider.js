@@ -20,6 +20,7 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
 
     case GET_LIST: {
         if (resource === 'movies' && !params.query) {
+            const now  = new Date();
             const query = {
                 api_key: API_KEY,
                 language: LANGUAGE,
@@ -29,7 +30,7 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
                 "primary_release_date.gte":
                     params && params.release_date_after ?
                         params.release_date_after :
-                        (new Date()).toISOString().split("T")[0],
+                        new Date(now.setFullYear(now.getFullYear() - 1)).toISOString().split("T")[0],
             }
             return { url: `${API_URL}/3/discover/movie?${queryString.stringify(query)}` };
         } else if (resource === 'movies' && params.query) {
@@ -51,6 +52,7 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
             }
             return { url: `${API_URL}/3/movie/${params.movie_id}/casts?${queryString.stringify(query)}` };
         }
+        break;
     }
 
     case GET_ONE: {
@@ -74,7 +76,7 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
  * @returns {Object} Data Provider response
  */
 const convertHTTPResponseToDataProvider = (response, type, resource, params) => {
-    const { headers, json } = response;
+    const { json } = response;
     switch (type) {
     case GET_LIST: {
         if (resource === 'movies') {
@@ -103,11 +105,12 @@ const convertHTTPResponseToDataProvider = (response, type, resource, params) => 
                 total: json.cast.length,
             });
         }
+        break;
     }
     case GET_ONE: {
         json["image_path"] = "http://image.tmdb.org/t/p/w500/" + json.poster_path
         return {
-            data: json.results
+            data: json
         };
     }
     default:
