@@ -28,6 +28,11 @@ const Menu = ({ resources, onMenuClick, logout }) => (
             primaryText="Test Chart"
             onClick={onMenuClick}
         />
+        <MenuItemLink
+            to="/pie-chart"
+            primaryText="Pie Chart"
+            onClick={onMenuClick}
+        />
     </div>
 );
 
