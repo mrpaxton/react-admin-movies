@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import { PopularityChart } from './VictoryCharts';
 
+
 class Dashboard extends React.Component {
 
     state = {};
@@ -19,8 +20,7 @@ class Dashboard extends React.Component {
         return (
             <Card>
                 <CardHeader title="Top Popular Movies" />
-                <CardContent>Bar Chart by Formidable's Victory Chart</CardContent>
-                <Typography>{ price || "Data Retrieval Error" }</Typography>
+                <CardContent></CardContent>
                 <PopularityChart />
             </Card>
         );

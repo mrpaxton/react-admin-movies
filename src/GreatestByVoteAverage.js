@@ -1,7 +1,9 @@
 
+//Utilizing the Dx React Chart library(dx-react-chart-material-ui)
 import * as React from 'react';
 import { GET_LIST, Loading } from 'react-admin';
 import Paper from '@material-ui/core/Paper';
+import themoviedbDataProvider from './themoviedbDataProvider';
 import {
     Chart,
     ArgumentAxis,
@@ -10,11 +12,12 @@ import {
     BarSeries,
     Title,
 } from '@devexpress/dx-react-chart-material-ui';
-import themoviedbDataProvider from './themoviedbDataProvider';
+
 
 const dataProvider = themoviedbDataProvider;
 const imageSize = 120;
 const labelOffset = 10;
+
 
 const getPath = (x, y, width, height) => (
     `
@@ -26,6 +29,7 @@ const getPath = (x, y, width, height) => (
         Z
     `
 );
+
 
 const BarWithLabel = (props) => {
 
@@ -46,9 +50,11 @@ const BarWithLabel = (props) => {
             />
         </React.Fragment>
     );
+
 };
 
-export default class GreatestByVoteAverage extends React.PureComponent {
+
+class GreatestByVoteAverage extends React.PureComponent {
 
     constructor(props) {
         super(props);
@@ -68,7 +74,6 @@ export default class GreatestByVoteAverage extends React.PureComponent {
     }
 
     getData() {
-
         const { data: dataState } = this.state;
         if (!dataState) {
             dataProvider(GET_LIST, 'movies', {})
@@ -98,9 +103,8 @@ export default class GreatestByVoteAverage extends React.PureComponent {
     }
 
     render() {
-        const {
-            data: chartData,
-        } = this.state;
+
+        const { data: chartData } = this.state;
 
         if (!chartData) {
             return <Loading />;
@@ -112,33 +116,36 @@ export default class GreatestByVoteAverage extends React.PureComponent {
                     chartData ? (
                         <Chart data={chartData}>
                             <ArgumentAxis
-                        name="title"
-                        type="band"
-                        labelComponent={this.getLabelWithAvatarComponent}
-                        tickComponent={() => null}
+                                name="title"
+                                type="band"
+                                labelComponent={this.getLabelWithAvatarComponent}
+                                tickComponent={() => null}
                             />
                             <ValueAxis name="vote_average" lineComponent={() => null} />
                             <Grid name="vote_average" strokeDasharray="10 10" />
 
                             <BarSeries
-                        name="VoteAverage"
-                        valueField="vote_average"
-                        argumentField="title"
-                        axisName="vote_average"
-                        pointComponent={BarWithLabel}
+                                name="VoteAverage"
+                                valueField="vote_average"
+                                argumentField="title"
+                                axisName="vote_average"
+                                pointComponent={BarWithLabel}
                             />
                             <Title
-                        text={"Top Movies by Vote Average"}
-                        style={{ textAlign: 'center', width: '100%', marginBottom: 4 }}
+                                text={"Top Movies by Vote Average"}
+                                style={{ textAlign: 'center', width: '100%', marginBottom: 4 }}
                             />
-                            </Chart>
+                        </Chart>
                     ) : (
-                            <h1>
-                            No data
-                            </h1>
+                        <h1>
+                            Data is not ready.  Please try again.
+                        </h1>
                     )
                 }
-                </Paper>
+            </Paper>
         );
     }
 }
+
+
+export default GreatestByVoteAverage;
