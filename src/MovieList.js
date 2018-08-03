@@ -13,7 +13,7 @@ import themoviedbDataProvider from './themoviedbDataProvider';
 import { connect } from 'react-redux';
 import ReleaseDatePicker from './ReleaseDatePicker';
 import { Filter, TextInput } from 'react-admin';
-import RefreshMoviesAction from './RefreshMoviesAction';
+import refreshMoviesAction from './RefreshMoviesAction';
 import SmileyIcon from '@material-ui/icons/SentimentSatisfied';
 import MovieIcon from '@material-ui/icons/Movie';
 const queryString = require('query-string');
@@ -32,12 +32,12 @@ const cardMediaStyle = {
     display: 'block',
     width: '100%',
     height: 500,
-    zIndex: 5
+    zIndex: 2
 };
 
 //TODO: refresh button to handle the refreshMovies callback passed into the MovieGrid
 const MovieGrid = ({refreshMovies, basePath, movies=[], genres=[]}) => (
-    <StackGrid appearDelay={150} duration={700} columnWidth={400} gutterWidth={10} gutterHeight={5} >
+    <StackGrid style={{marginTop: 70}} appearDelay={150} duration={700} columnWidth={400} gutterWidth={10} gutterHeight={5} >
         {movies.map(movie => (
             <Card key={movie.id} style={cardStyle}>
                 { movie.image_path && <CardMedia style={cardMediaStyle} image={movie.image_path} /> }
@@ -152,7 +152,7 @@ const MovieList = (props) => {
         //removing refreshMovies from props to prevent error in List
         const { refreshMovies, ...restProps } = props;
         return (
-            <List title="All Movies" perPage={5} filters={<MovieFilter />} {...restProps} >
+            <List title="All Movies" perPage={20} filters={<MovieFilter />} {...restProps} >
                 <MovieGrid refreshMovies={refreshMovies} movies={movies} genres={genres} />
             </List>
         );
@@ -181,6 +181,6 @@ const mapStateToProps = state => ({
     movies: !state.refreshedMovies.data ? [] : state.refreshedMovies.data.map(moviesDataMapper)
 });
 
-const mapActionsToProps = { refreshMovies: RefreshMoviesAction };
+const mapActionsToProps = { refreshMovies: refreshMoviesAction };
 
 export default connect(mapStateToProps, mapActionsToProps)(withInitialData(MovieList));

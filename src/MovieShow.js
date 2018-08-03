@@ -108,9 +108,14 @@ const MovieShow = (props) => {
     );
 };
 
-//MovieShow.propTypes = {
-    //classes: PropTypes.object.isRequired,
-//};
+
+
+MovieShow.propTypes = {
+    classes: null,
+    isLoading: null,
+    cast: null,
+
+};
 
 const enhance = compose(
     withStyles(styles),

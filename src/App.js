@@ -8,7 +8,7 @@ import Menu from './Menu';
 import customRoutes from './customRoutes';
 import authProvider from './authProvider';
 import themoviedbDataProvider from './themoviedbDataProvider';
-import refreshedMovies from './refreshedMoviesReducer';
+import refreshedMovies from './RefreshedMoviesReducer';
 
 const dataProvider = themoviedbDataProvider;
 

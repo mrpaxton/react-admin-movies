@@ -11,28 +11,28 @@ const data = [
     {title: "Avengers: Infinity War", popularity: 135.744, vote_average: 8.4, vote_count: 5486},
 ];
 
-export const VoteAverageChart = () => (
-    <svg viewBox={"0,0,400,400"}  preserveAspectRatio="none" width="50%">
-    <VictoryChart
-		standalone={false}
-        theme={VictoryTheme.material} >
-	<VictoryLabel text="Vote Average of Top 5 Movies by Vote Average" x={200} y={30} textAnchor="middle"/>
-        <VictoryAxis
-            tickValues={[0,1,2,3,4,5,6,7,8,9]}
-        />
-		<VictoryBar
-			horizontal
-            alignment="middle"
-            barRatio={0.7}
-			data={data}
-			y="vote_average"
-			labels={(d) => (`${d.title.length > 20 ? d.title.slice(0,21) + "..." : d.title}`) }
-			labelComponent={<VictoryLabel  dx={-100} textAnchor="end" />}
-			style={{ parent: {border: "1px solid #ccc"}, data: {fill: "gold", opacity: 0.85}, labels: { fill: "#teal" } }}
-        />
-    </VictoryChart>
-    </svg>
-);
+//export const VoteAverageChart = () => (
+    //<svg viewBox={"0,0,400,400"}  preserveAspectRatio="none" width="50%">
+    //<VictoryChart
+		//standalone={false}
+        //theme={VictoryTheme.material} >
+	//<VictoryLabel text="Vote Average of Top 5 Movies by Vote Average" x={200} y={30} textAnchor="middle"/>
+        //<VictoryAxis
+            //tickValues={[0,1,2,3,4,5,6,7,8,9]}
+        ///>
+		//<VictoryBar
+			//horizontal
+            //alignment="middle"
+            //barRatio={0.7}
+			//data={data}
+			//y="vote_average"
+			//labels={(d) => (`${d.title.length > 20 ? d.title.slice(0,21) + "..." : d.title}`) }
+			//labelComponent={<VictoryLabel  dx={-100} textAnchor="end" />}
+			//style={{ parent: {border: "1px solid #ccc"}, data: {fill: "gold", opacity: 0.85}, labels: { fill: "#teal" } }}
+        ///>
+    //</VictoryChart>
+    //</svg>
+//);
 
 export const PopularityChart = () => (
     <svg viewBox={"0,0,400,400"}  preserveAspectRatio="none" width="50%">

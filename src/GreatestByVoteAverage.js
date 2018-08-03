@@ -48,7 +48,7 @@ const BarWithLabel = (props) => {
     );
 };
 
-export default class TestChart extends React.PureComponent {
+export default class GreatestByVoteAverage extends React.PureComponent {
 
     constructor(props) {
         super(props);
