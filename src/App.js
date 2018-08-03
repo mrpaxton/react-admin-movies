@@ -5,7 +5,7 @@ import MovieList from './MovieList';
 import MovieShow from './MovieShow';
 import { GenreList } from './GenreList';
 import Menu from './Menu';
-import customRoutes from './customRoutes';
+import customRoutes from './CustomRoutes';
 import authProvider from './authProvider';
 import themoviedbDataProvider from './themoviedbDataProvider';
 import refreshedMovies from './RefreshedMoviesReducer';
