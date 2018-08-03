@@ -164,8 +164,7 @@ const MovieList = (props) => {
 
 };
 
-
-const moviesDataMapper = movie => Object.assign({}, {
+const moviesDataMapper = movie => ({
     id: movie.id,
     title: movie.title,
     image_path: movie.image_path,
@@ -175,7 +174,6 @@ const moviesDataMapper = movie => Object.assign({}, {
     vote_average: movie.vote_average,
     genre_ids: movie.genre_ids,
 });
-
 
 const mapStateToProps = state => ({
     movies: !state.refreshedMovies.data ? [] : state.refreshedMovies.data.map(moviesDataMapper)

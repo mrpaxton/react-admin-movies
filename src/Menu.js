@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 
 
 const Menu = ({ resources, onMenuClick, logout }) => (
+
     <div>
         <MenuItemLink
             to="/dashboard"
@@ -35,13 +36,14 @@ const Menu = ({ resources, onMenuClick, logout }) => (
             ))
         }
     </div>
+
 );
 
 
-Menu.PropTypes = {
+Menu.propTypes = {
     resources: PropTypes.array,
-    onMenuClick: PropTypes.func.isRequired,
-    logout: PropTypes.func ,
+    onMenuClick: PropTypes.func,
+    logout: PropTypes.object ,
 };
 
 
