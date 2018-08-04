@@ -123,7 +123,6 @@ class GreatestByVoteAverage extends React.PureComponent {
                             />
                             <ValueAxis name="vote_average" lineComponent={() => null} />
                             <Grid name="vote_average" strokeDasharray="10 10" />
-
                             <BarSeries
                                 name="VoteAverage"
                                 valueField="vote_average"

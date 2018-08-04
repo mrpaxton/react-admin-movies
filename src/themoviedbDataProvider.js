@@ -10,7 +10,7 @@ const truncate = require('truncate');
 
 /**
  * @param {String} type One of the constants appearing at the top if this file, e.g. 'UPDATE'
- * @param {String} resource Name of the resource to fetch, e.g. 'posts'
+ * @param {String} resource Name of the resource to fetch, e.g. 'movies, genres'
  * @param {Object} params The Data Provider request params, depending on the type
  * @returns {Object} { url, options } The HTTP request parameters
  */
@@ -71,10 +71,13 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
 /**
  * @param {Object} response HTTP response from fetch()
  * @param {String} type One of the constants appearing at the top if this file, e.g. 'UPDATE'
- * @param {String} resource Name of the resource to fetch, e.g. 'posts'
+ * @param {String} resource Name of the resource to fetch, e.g. 'movies, genres'
  * @param {Object} params The Data Provider request params, depending on the type
  * @returns {Object} Data Provider response
  */
+const poster_base_url = "http://image.tmdb.org/t/p/w342";
+const avatar_base_url = "http://image.tmdb.org/t/p/w92";
+const poster_show_base_url = "http://image.tmdb.org/t/p/w500/";
 const convertHTTPResponseToDataProvider = (response, type, resource, params) => {
     const { json } = response;
     switch (type) {
@@ -84,7 +87,7 @@ const convertHTTPResponseToDataProvider = (response, type, resource, params) => 
                 data: json.results.map( x => {
                     return ({
                         ...x,
-                        ...{image_path: x.poster_path ? "http://image.tmdb.org/t/p/w342" + x.poster_path : ""},
+                        ...{image_path: x.poster_path ? `${poster_base_url}${x.poster_path}` : ""},
                         ...{short_overview: x.overview.length > 240
                                 ? truncate(x.overview, 240) : x.overview},
                     });
@@ -100,7 +103,7 @@ const convertHTTPResponseToDataProvider = (response, type, resource, params) => 
             return ({
                 data: json.cast.map( x => ({
                     ...x,
-                    ...{"profile_path": "http://image.tmdb.org/t/p/w92" + x.profile_path}
+                    ...{"profile_path": avatar_base_url + x.profile_path}
                 })),
                 total: json.cast.length,
             });
@@ -108,7 +111,7 @@ const convertHTTPResponseToDataProvider = (response, type, resource, params) => 
         break;
     }
     case GET_ONE: {
-        json["image_path"] = "http://image.tmdb.org/t/p/w500/" + json.poster_path
+        json["image_path"] = poster_show_base_url + json.poster_path
         return {
             data: json
         };
@@ -120,7 +123,7 @@ const convertHTTPResponseToDataProvider = (response, type, resource, params) => 
 
 /**
  * @param {string} type Request type, e.g GET_LIST
- * @param {string} resource Resource name, e.g. "posts"
+ * @param {string} resource Resource name, e.g. "movies, genres"
  * @param {Object} payload Request parameters. Depends on the request type
  * @returns {Promise} the Promise for response
  */

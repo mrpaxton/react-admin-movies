@@ -16,7 +16,6 @@ class Dashboard extends React.Component {
     }
 
     render() {
-        const { price } = this.state;
         return (
             <Card>
                 <CardHeader title="Top Popular Movies" />
