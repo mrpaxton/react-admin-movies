@@ -8,6 +8,7 @@ import {
     TextField,
     ImageField,
     Loading,
+    SimpleShowLayout,
     TabbedShowLayout,
     Tab,
 } from 'react-admin';
@@ -19,6 +20,8 @@ import Divider from '@material-ui/core/Divider';
 import Avatar from '@material-ui/core/Avatar';
 import themoviedbDataProvider from './themoviedbDataProvider';
 import compose from 'recompose/compose';
+
+import ReactSpeedoMeter from 'react-d3-speedometer';
 
 
 const withCastData = MovieShow => (
@@ -70,11 +73,23 @@ MovieTitle.propTypes = {
     record: PropTypes.object,
 };
 
+const WithProps = ({children, ...props}) => children(props);
 
-const MovieShow = ({classes, isLoading, cast, ...restProps}) => {
+const MeterField = ({record = {}, source}) => (
+    <ReactSpeedoMeter
+        value={record.revenue / record.budget}
+        width={400}
+        height={400}
+        maxValue={12}
+        minValue={-5}
+        valueFormat="P"
+    />
+);
+
+const MovieShow = ({classes, isLoading, cast, ...props}) => {
 
     return isLoading ? <Loading /> : (
-        <Show title={<MovieTitle />} {...restProps}>
+        <Show title={<MovieTitle />} {...props}>
             <TabbedShowLayout classes={{tab: classes.tab}} >
                 <Tab label="Summary" >
                     <ImageField source="image_path" classes={{ image: classes.image }} />
@@ -106,6 +121,8 @@ const MovieShow = ({classes, isLoading, cast, ...restProps}) => {
                     <NumberField source="revenue" options={{ style: 'currency', currency: 'USD' }} />
                     <NumberField source="popularity" options={{ maximumFractionDigits: 2 }} />
                     <TextField label="Language" source="spoken_languages[0].name" />
+                    <MeterField source="id" />
+
                 </Tab>
             </TabbedShowLayout>
         </Show>
