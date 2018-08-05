@@ -1,34 +1,56 @@
 
 import React, {Component} from 'react';
 import Paper from '@material-ui/core/Paper';
-import { Card } from 'react-admin';
+import { Card, GET_LIST } from 'react-admin';
 import Typography from '@material-ui/core/Typography';
-
+import themoviedbDataProvider from './themoviedbDataProvider';
 import {
 	RadialChart,
 	Hint,
     LabelSeries,
 } from 'react-vis';
 
+const truncate = require('truncate');
+
+
 export default class SimpleRadialChart extends Component {
 
 	state = {
-		value: false
+        data: null,
+		value: false,
 	}
 
+    componentDidMount() {
+        const dataProvider = themoviedbDataProvider;
+        dataProvider(GET_LIST, 'movies', {})
+            .then(result => {
+                this.setState({ data: result.data.slice(0,5)
+                    .reduce((acc, m) => {
+                        acc.push(
+                            {
+                                label: m.title.length > 25 ? truncate(m.title, 25) : m.title,
+                                theta: m.vote_count.toString(),
+                                subLabel: m.vote_count.toString(),
+                            }
+                        );
+                        return acc;
+                    }, []),
+                    value: true
+                });
+            })
+            .catch( () => {
+                this.setState({ data: {} });
+            });
+    }
+
 	render() {
-		const {value} = this.state;
-        const data= [
-                    {theta: 2, label: 'Theta Alpha Beta 2'},
-                    {theta: 6, label: 'Theta6', subLabel: 'Baz'},
-                    {theta: 2, label: 'Theta2', subLabel: 'Bar'},
-                    {theta: 3, label: 'Theta3', subLabel: 'Foo'},
-                    {theta: 1, label: 'Theta1'},
-                    ];
-		return (
-            <Paper>
-                    <Typography variant="display3" color="primary">
-                        Chart Title
+
+        const { data: chartData } = this.state;
+
+		return !chartData ? <h3>No Movies Data</h3> : (
+            <Paper elevation2 style={{padding:30}}>
+                    <Typography variant="display1" color="primary" alignCenter>
+                        Vote Count Distribution amoung Top Movies
                     </Typography>
                     <RadialChart
                         className={'donut-chart-example'}
@@ -37,17 +59,12 @@ export default class SimpleRadialChart extends Component {
                         getAngle={d => d.theta}
                         animation={true}
                         showLabels={true}
-                        data={data}
+                        data={chartData}
                         width={1000}
                         labelsAboveChildren={true}
-                        labelsRadiusMultiplier={0.8}
-                        labelsStyle={{fontSize: 22}}
-                        height={800}>
-
-
-                        {value && <Hint value={value}/>}
-
-
+                        labelsRadiusMultiplier={0.9}
+                        labelsStyle={{fontSize: 15}}
+                        height={700}>
                     </RadialChart>
             </Paper>
 		);

@@ -78,7 +78,7 @@ const withInitialData = MovieList =>
             release_date_after: this.DEFAULT_RELEASE_DATE_FILTER
         };
 
-        updateMovies(params = {release_date_after: this.state.release_date_after} ) {
+        updateMovies(params = {release_date_after: this.state.release_date_after}) {
 
             const { refreshMovies } = this.props;
             const dataProvider = themoviedbDataProvider;
@@ -132,25 +132,20 @@ const withInitialData = MovieList =>
 
 
 const MovieFilter = (props) => (
-
     <Filter {...props}>
         <TextInput label="Search Movies" source="q" alwaysOn />
     </Filter>
-
 );
 
 
-const MovieList = (props) => {
-
-    const { isLoading, genres, movies } = props;
+const MovieList = ({ refreshMovies, isLoading, genres, movies, ...restProps }) => {
 
     if (isLoading) {
         return (
             <Loading key="loading-movies" />
         );
     } else if (movies.length > 0 && genres.length > 0) {
-        //removing refreshMovies from props to prevent error in List
-        const { refreshMovies, ...restProps } = props;
+        //refreshMovies() is for MovieGrid not for List
         return (
             <List title="All Movies" perPage={20} filters={<MovieFilter />} {...restProps} >
                 <MovieGrid refreshMovies={refreshMovies} movies={movies} genres={genres} />
@@ -164,6 +159,7 @@ const MovieList = (props) => {
 
 };
 
+
 const moviesDataMapper = movie => ({
     id: movie.id,
     title: movie.title,
@@ -175,10 +171,13 @@ const moviesDataMapper = movie => ({
     genre_ids: movie.genre_ids,
 });
 
+
 const mapStateToProps = state => ({
     movies: !state.refreshedMovies.data ? [] : state.refreshedMovies.data.map(moviesDataMapper)
 });
 
+
 const mapActionsToProps = { refreshMovies: refreshMoviesAction };
+
 
 export default connect(mapStateToProps, mapActionsToProps)(withInitialData(MovieList));

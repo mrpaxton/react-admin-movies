@@ -61,16 +61,20 @@ const styles = {
   },
 };
 
+
 const MovieTitle = ({ record }) => (
     <span>{record ? `${record.title}` : ''}</span>
 );
 
-const MovieShow = (props) => {
+MovieTitle.propTypes = {
+    record: PropTypes.object,
+};
 
-    const { classes, isLoading, cast } = props;
+
+const MovieShow = ({classes, isLoading, cast, ...restProps}) => {
 
     return isLoading ? <Loading /> : (
-        <Show title={<MovieTitle />} {...props}>
+        <Show title={<MovieTitle />} {...restProps}>
             <TabbedShowLayout classes={{tab: classes.tab}} >
                 <Tab label="Summary" >
                     <ImageField source="image_path" classes={{ image: classes.image }} />
@@ -111,10 +115,9 @@ const MovieShow = (props) => {
 
 
 MovieShow.propTypes = {
-    classes: null,
-    isLoading: null,
-    cast: null,
-
+    classes: PropTypes.object,
+    isLoading: PropTypes.bool,
+    cast: PropTypes.array,
 };
 
 const enhance = compose(
