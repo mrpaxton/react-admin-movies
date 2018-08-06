@@ -16,6 +16,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import Card from '@material-ui/core/Card';
 import Divider from '@material-ui/core/Divider';
 import Avatar from '@material-ui/core/Avatar';
 import themoviedbDataProvider from './themoviedbDataProvider';
@@ -73,17 +74,19 @@ MovieTitle.propTypes = {
     record: PropTypes.object,
 };
 
-const WithProps = ({children, ...props}) => children(props);
 
 const MeterField = ({record = {}, source}) => (
-    <ReactSpeedoMeter
-        value={record.revenue / record.budget}
-        width={400}
-        height={400}
-        maxValue={12}
-        minValue={-5}
-        valueFormat="P"
-    />
+    <Card style={{padding: 20, width: 420, height: 300}}>
+        <ReactSpeedoMeter
+            value={record.revenue / record.budget}
+            width={400}
+            height={250}
+            maxValue={16}
+            minValue={-5}
+            valueFormat="P"
+        />
+        <Typography variant={"display1"} color={"primary"} >Profit Multiples</Typography>
+    </Card>
 );
 
 const MovieShow = ({classes, isLoading, cast, ...props}) => {
@@ -117,12 +120,14 @@ const MovieShow = ({classes, isLoading, cast, ...props}) => {
                     <RichTextField source="overview" addLabel={false} />
                 </Tab>
                 <Tab label="Stats">
+                    <MeterField source="id" />
                     <NumberField source="budget" options={{ style: 'currency', currency: 'USD' }} />
                     <NumberField source="revenue" options={{ style: 'currency', currency: 'USD' }} />
                     <NumberField source="popularity" options={{ maximumFractionDigits: 2 }} />
                     <TextField label="Language" source="spoken_languages[0].name" />
-                    <MeterField source="id" />
-
+                    <NumberField source="runtime" addLabel={true} />
+                    <NumberField source="vote_count" addLabel={true} />
+                    <NumberField source="vote_average" addLabel={true} />
                 </Tab>
             </TabbedShowLayout>
         </Show>
