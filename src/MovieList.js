@@ -83,6 +83,8 @@ const withInitialData = MovieList =>
             const { refreshMovies } = this.props;
             const dataProvider = themoviedbDataProvider;
 
+            console.log("in withInitialData");
+
             //dispatch action to refresh movies
             refreshMovies(params);
 

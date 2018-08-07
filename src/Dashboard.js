@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import { PopularityChart } from './VictoryCharts';
 
+import VerticalTimelineDisplay from './VerticalTimelineDisplay';
 
 class Dashboard extends React.Component {
 
@@ -21,6 +22,7 @@ class Dashboard extends React.Component {
                 <CardHeader title="Top Popular Movies" />
                 <CardContent></CardContent>
                 <PopularityChart />
+                <VerticalTimelineDisplay />
             </Card>
         );
     }

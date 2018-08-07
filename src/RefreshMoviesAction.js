@@ -14,8 +14,8 @@ const refreshMoviesAction = (page, query, release_date_after, basePath) => {
             fetch: GET_LIST,
             resource: 'movies',
             onSuccess: {
-                redirectTo: '/movies',
-                basePath,
+                //redirectTo: '/movies',
+                //basePath,
             },
             onFailure: {
             },
