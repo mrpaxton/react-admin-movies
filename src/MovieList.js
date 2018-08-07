@@ -37,7 +37,14 @@ const cardMediaStyle = {
 
 //TODO: refresh button to handle the refreshMovies callback passed into the MovieGrid
 const MovieGrid = ({refreshMovies, basePath, movies=[], genres=[]}) => (
-    <StackGrid style={{marginTop: 70}} appearDelay={150} duration={700} columnWidth={400} gutterWidth={10} gutterHeight={5} >
+    <StackGrid
+        style={{marginTop: 70}}
+        appearDelay={150}
+        duration={700}
+        columnWidth={400}
+        gutterWidth={10}
+        gutterHeight={5} >
+
         {movies.map(movie => (
             <Card key={movie.id} style={cardStyle}>
                 { movie.image_path && <CardMedia style={cardMediaStyle} image={movie.image_path} /> }
@@ -58,6 +65,7 @@ const MovieGrid = ({refreshMovies, basePath, movies=[], genres=[]}) => (
                 </CardActions>
             </Card>
         ))}
+
     </StackGrid>
 );
 
@@ -71,7 +79,7 @@ const withInitialData = MovieList =>
 
     class extends List {
 
-        DEFAULT_RELEASE_DATE_FILTER = "2012-01-01";
+        DEFAULT_RELEASE_DATE_FILTER = "2015-01-01";
         state = {
             isLoading: true,
             genres: [],

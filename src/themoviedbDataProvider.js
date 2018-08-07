@@ -88,6 +88,7 @@ const convertHTTPResponseToDataProvider = (response, type, resource, params) => 
                     return ({
                         ...x,
                         ...{image_path: x.poster_path ? `${poster_base_url}${x.poster_path}` : ""},
+                        ...{avatar_path: x.poster_path ? `${avatar_base_url}${x.poster_path}` : ""},
                         ...{short_overview: x.overview.length > 240
                                 ? truncate(x.overview, 240) : x.overview},
                     });
@@ -111,7 +112,18 @@ const convertHTTPResponseToDataProvider = (response, type, resource, params) => 
         break;
     }
     case GET_ONE: {
-        json["image_path"] = poster_show_base_url + json.poster_path
+        json["image_path"] = poster_show_base_url + json.poster_path;
+        const logos = json.production_companies.reduce(
+            (acc, c) => {
+                if (c.logo_path) {
+                    const logoPath = c.logo_path.split(".png")[0] + ".svg";
+                    acc.push(avatar_base_url + logoPath);
+                }
+                return acc;
+            } , []
+        );
+        console.log(logos);
+        json["company_logos"] = logos;
         return {
             data: json
         };

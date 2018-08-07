@@ -9,21 +9,6 @@ import { withRouter } from 'react-router-dom';
 const Menu = ({ resources, onMenuClick, logout }) => (
 
     <div>
-        <MenuItemLink
-            to="/dashboard"
-            primaryText="Movie Dashboard"
-            onClick={onMenuClick}
-        />
-        <MenuItemLink
-            to="/greatest-by-vote-average"
-            primaryText="Greatest by Votes"
-            onClick={onMenuClick}
-        />
-        <MenuItemLink
-            to="/pie-chart"
-            primaryText="Pie Chart"
-            onClick={onMenuClick}
-        />
         {
             resources.map( (resource, i) => (
                 <MenuItemLink
@@ -35,6 +20,21 @@ const Menu = ({ resources, onMenuClick, logout }) => (
                 />
             ))
         }
+        <MenuItemLink
+            to="/movie-timeline"
+            primaryText="Timeline"
+            onClick={onMenuClick}
+        />
+        <MenuItemLink
+            to="/greatest-by-vote-average"
+            primaryText="Greatest by Votes"
+            onClick={onMenuClick}
+        />
+        <MenuItemLink
+            to="/pie-chart"
+            primaryText="Top Vote Distribution"
+            onClick={onMenuClick}
+        />
     </div>
 
 );

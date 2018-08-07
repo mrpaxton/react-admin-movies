@@ -17,6 +17,7 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
+import CardMedia from '@material-ui/core/CardMedia';
 import Divider from '@material-ui/core/Divider';
 import Avatar from '@material-ui/core/Avatar';
 import themoviedbDataProvider from './themoviedbDataProvider';
@@ -40,6 +41,7 @@ const withCastData = MovieShow => (
                 .then(cast => {
                     this.setState({cast: cast, isLoading: false});
                 });
+
         }
 
         render() {
@@ -89,6 +91,16 @@ const MeterField = ({record = {}, source}) => (
     </Card>
 );
 
+
+const LogoDisplayField = ({record = {}, source}) => (
+    <div style={{display: 'inline-block', width: '100%', float: 'left', padding: '1em'}}
+        key={"Logo-Display-" + record.id} >
+        { record.company_logos.map( logo => (
+            <img src={logo} style={{width: '150px', height: 'auto', margin: '20px 20px 0 0'}} />
+        )) }
+    </div>
+);
+
 const MovieShow = ({classes, isLoading, cast, ...props}) => {
 
     return isLoading ? <Loading /> : (
@@ -121,6 +133,7 @@ const MovieShow = ({classes, isLoading, cast, ...props}) => {
                 </Tab>
                 <Tab label="Stats">
                     <MeterField source="id" />
+                    <LogoDisplayField source="id" />
                     <NumberField source="budget" options={{ style: 'currency', currency: 'USD' }} />
                     <NumberField source="revenue" options={{ style: 'currency', currency: 'USD' }} />
                     <NumberField source="popularity" options={{ maximumFractionDigits: 2 }} />
