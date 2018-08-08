@@ -17,7 +17,7 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
+import Image from 'material-ui-image';
 import Divider from '@material-ui/core/Divider';
 import Avatar from '@material-ui/core/Avatar';
 import themoviedbDataProvider from './themoviedbDataProvider';
@@ -61,9 +61,8 @@ const styles = {
   //overriding image style of the ImageField by passing prop classes={classes} in <ImageField ...>
   image: {
     margin: '0.5rem',
-    width: '300px',
+    maxWidth: '50%',
     maxHeight: '30rem',
-    maxWidth: '30%',
   },
 };
 
@@ -78,25 +77,30 @@ MovieTitle.propTypes = {
 
 
 const MeterField = ({record = {}, source}) => (
-    <Card style={{padding: 20, width: 420, height: 300}}>
+    <Card style={{padding: 20, width: 400, height: 300}}>
         <ReactSpeedoMeter
-            value={record.revenue / record.budget}
+            value={record.budget > 0 ? (record.revenue / record.budget) : 0}
             width={400}
             height={250}
-            maxValue={16}
+            maxValue={
+                record.budget > 0 && (record.revenue/record.budget) < 16 ? 16 :
+                    Math.round(record.revenue/record.budget) + 2
+            }
             minValue={-5}
             valueFormat="P"
         />
-        <Typography variant={"display1"} color={"primary"} >Profit Multiples</Typography>
+        <Typography variant={"headline"} color={"textPrimary"} align="center" >Revenue Multiples</Typography>
     </Card>
 );
 
 
 const LogoDisplayField = ({record = {}, source}) => (
-    <div style={{display: 'inline-block', width: '100%', float: 'left', padding: '1em'}}
+    <div style={{display: 'inline-block', width: '800px', height: '100px', margin: "20px 0 20px 0"}}
         key={"Logo-Display-" + record.id} >
         { record.company_logos.map( logo => (
-            <img src={logo} style={{width: '150px', height: 'auto', margin: '20px 20px 0 0'}} />
+            <div style={{display: 'flex', maxWidth: '120px', height: '120px', margin: '10px 0 10px 0'}} >
+                <Image src={logo} imageStyle={{width: 'auto', height: '120px', marginRight: '20px', opacity: '0.75'}} />
+            </div>
         )) }
     </div>
 );
