@@ -11,11 +11,11 @@ import Chip from '@material-ui/core/Chip';
 import { GET_LIST, List, Loading, RichTextField, ShowButton } from 'react-admin';
 import themoviedbDataProvider from './themoviedbDataProvider';
 import { connect } from 'react-redux';
-import ReleaseDatePicker from './ReleaseDatePicker';
 import { Filter, TextInput } from 'react-admin';
 import refreshMoviesAction from './RefreshMoviesAction';
 import SmileyIcon from '@material-ui/icons/SentimentSatisfied';
 import MovieIcon from '@material-ui/icons/Movie';
+import ReleaseDatePicker from './ReleaseDatePicker';
 const queryString = require('query-string');
 
 
@@ -148,7 +148,7 @@ const MovieFilter = (props) => (
 );
 
 
-const MovieList = ({ refreshMovies, isLoading, genres, movies, ...restProps }) => {
+const MovieList = ({ refreshMovies, isLoading, genres, movies, ...props }) => {
 
     if (isLoading) {
         return (
@@ -157,9 +157,11 @@ const MovieList = ({ refreshMovies, isLoading, genres, movies, ...restProps }) =
     } else if (movies.length > 0 && genres.length > 0) {
         //refreshMovies() is for MovieGrid not for List
         return (
-            <List title="All Movies" perPage={20} filters={<MovieFilter />} {...restProps} >
-                <MovieGrid refreshMovies={refreshMovies} movies={movies} genres={genres} />
-            </List>
+            <div>
+                <List titlte="Movies" perPage={20} filters={<MovieFilter />} {...props} >
+                    <MovieGrid refreshMovies={refreshMovies} movies={movies} genres={genres} />
+                </List>
+            </div>
         );
     } else {
         return (
