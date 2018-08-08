@@ -87,7 +87,7 @@ const MeterField = ({record = {}, source}) => (
                     Math.round(record.revenue/record.budget) + 2
             }
             minValue={-5}
-            valueFormat="P"
+            valueFormat="0.4P"
         />
         <Typography variant={"headline"} color={"textPrimary"} align="center" >Revenue Multiples</Typography>
     </Card>
@@ -99,7 +99,7 @@ const LogoDisplayField = ({record = {}, source}) => (
         key={"Logo-Display-" + record.id} >
         { record.company_logos.map( logo => (
             <div style={{display: 'flex', maxWidth: '120px', height: '120px', margin: '10px 0 10px 0'}} >
-                <Image src={logo} imageStyle={{width: 'auto', height: '120px', marginRight: '20px', opacity: '0.75'}} />
+                <Image src={logo} imageStyle={{width: 'auto', maxWidth: '400px', height: '120px', marginRight: '20px', opacity: '0.75'}} />
             </div>
         )) }
     </div>
