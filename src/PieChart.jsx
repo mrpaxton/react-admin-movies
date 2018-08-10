@@ -38,7 +38,7 @@ export default class SimpleRadialChart extends Component {
     return !chartData ? (
       <h3>No Movies Data</h3>
     ) : (
-      <Paper elevation2 style={{ padding: 30 }}>
+      <Paper style={{ padding: 10 }}>
         <Typography variant="display1" color="primary" align="center">
           Vote Count Distribution amoung Top Movies
         </Typography>
