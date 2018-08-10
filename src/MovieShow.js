@@ -7,9 +7,8 @@ import {
   TextField,
   ImageField,
   Loading,
-  SimpleShowLayout,
+  Tab,
   TabbedShowLayout,
-  Tab
 } from "react-admin";
 import PropTypes from "prop-types";
 import classNames from "classnames";
@@ -78,7 +77,7 @@ const MeterField = ({ record = {}, source }) => (
       minValue={-5}
       valueFormat="0.4P"
     />
-    <Typography variant={"headline"} color={"textPrimary"} align="center">
+    <Typography variant={"headline"} color={"primary"} align="center">
       Revenue Multiples
     </Typography>
   </Card>
