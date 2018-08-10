@@ -1,5 +1,6 @@
 // Utilizing the Dx React Chart library(dx-react-chart-material-ui)
 import * as React from "react";
+import PropTypes from "prop-types";
 import { GET_LIST, Loading } from "react-admin";
 import Paper from "@material-ui/core/Paper";
 import {
@@ -42,6 +43,15 @@ const BarWithLabel = props => {
       />
     </React.Fragment>
   );
+};
+
+BarWithLabel.propTypes = {
+  x: PropTypes.number.isRequired,
+  y: PropTypes.number.isRequired,
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
+  value: PropTypes.string.isRequired,
+  themeColor: PropTypes.string.isRequired
 };
 
 class GreatestByVoteAverage extends React.PureComponent {

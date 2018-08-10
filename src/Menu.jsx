@@ -4,11 +4,11 @@ import { connect } from "react-redux";
 import { MenuItemLink, getResources } from "react-admin";
 import { withRouter } from "react-router-dom";
 
-const Menu = ({ resources, onMenuClick, logout }) => (
+const Menu = ({ resources, onMenuClick }) => (
   <div>
-    {resources.map((resource, i) => (
+    {resources.map(resource => (
       <MenuItemLink
-        key={i}
+        key={`menu-item-link-${resource.name}`}
         to={`/${resource.name}`}
         primaryText={
           resource.name.charAt(0).toUpperCase() + resource.name.substr(1)
@@ -35,9 +35,8 @@ const Menu = ({ resources, onMenuClick, logout }) => (
 );
 
 Menu.propTypes = {
-  resources: PropTypes.array,
-  onMenuClick: PropTypes.func,
-  logout: PropTypes.object
+  resources: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onMenuClick: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
