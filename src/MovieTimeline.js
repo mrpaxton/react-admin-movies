@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import VerticalTimelineDisplay from './VerticalTimelineDisplay';
+import UserList from "./UserList";
 
 class MovieTimeline extends React.Component {
 
@@ -15,6 +16,7 @@ class MovieTimeline extends React.Component {
                 <CardContent>
                     <VerticalTimelineDisplay />
                 </CardContent>
+                <UserList />
             </Card>
         );
     }

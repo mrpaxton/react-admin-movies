@@ -122,7 +122,6 @@ const convertHTTPResponseToDataProvider = (response, type, resource, params) => 
                 return acc;
             } , []
         );
-        console.log(logos);
         json["company_logos"] = logos;
         return {
             data: json

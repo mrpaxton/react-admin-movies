@@ -9,7 +9,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
-import RefreshMoviesAction from './RefreshMoviesAction';
+import refreshMoviesAction from './refreshMoviesAction';
 
 
 class DateFilterDialog extends React.Component {
@@ -68,6 +68,6 @@ const DatePickerComponent = ({refreshMovies, ...props}) =>
 
 export default connect(
 	null, {
-		refreshMovies: RefreshMoviesAction,
+		refreshMovies: refreshMoviesAction,
 	}
 )(DatePickerComponent);

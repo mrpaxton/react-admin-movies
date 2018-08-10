@@ -5,7 +5,7 @@ import StarIcon from '@material-ui/icons/Star';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
 import { connect } from 'react-redux';
-import refreshMoviesAction from './RefreshMoviesAction';
+import refreshMoviesAction from './refreshMoviesAction';
 
 
 class VerticalTimelineDisplay extends Component {
@@ -68,13 +68,16 @@ const moviesDataMapper = movie => ({
     year: new Date(movie.release_date).getFullYear().toString(),
 });
 
+
 const mapActionsToProps = { refreshMovies: refreshMoviesAction };
 
+
 const mapStateToProps = state => ({
-    movies: !state.refreshedMovies.data ? [] :
-        state.refreshedMovies.data.slice(0,20)
+    movies: !state.refreshedMoviesReducer.data ? [] :
+        state.refreshedMoviesReducer.data.slice(0,20)
         .map(moviesDataMapper)
         .sort( (m1, m2) => new Date(m1.release_date) - new Date(m2.release_date) )
 });
+
 
 export default connect(mapStateToProps, mapActionsToProps)(VerticalTimelineDisplay);

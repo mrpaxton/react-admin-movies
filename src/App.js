@@ -8,14 +8,14 @@ import Menu from './Menu';
 import customRoutes from './CustomRoutes';
 import authProvider from './authProvider';
 import themoviedbDataProvider from './themoviedbDataProvider';
-import refreshedMovies from './RefreshedMoviesReducer';
+import refreshedMoviesReducer from './refreshedMoviesReducer';
 
 const dataProvider = themoviedbDataProvider;
 
 
 const App = () => (
     <Admin
-        customReducers={{refreshedMovies}}
+        customReducers={{refreshedMoviesReducer}}
         menu={Menu}
         authProvider={authProvider}
         customRoutes={customRoutes}
