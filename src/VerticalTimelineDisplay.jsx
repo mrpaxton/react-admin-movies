@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import Avatar from "@material-ui/core/Avatar";
-// import StarIcon from "@material-ui/icons/Star";
+import StarIcon from "@material-ui/icons/Star";
 import {
   VerticalTimeline,
   VerticalTimelineElement
@@ -8,32 +9,30 @@ import {
 import "react-vertical-timeline-component/style.min.css";
 import { connect } from "react-redux";
 import refreshMoviesAction from "./refreshMoviesAction";
-import PropTypes from 'prop-types';
-
 
 class VerticalTimelineDisplay extends Component {
-  state = { release_date_after: "2000-01-01" };
+  state = { releaseDateAfter: "2000-01-01" };
 
   componentDidMount() {
     this.updateMovies();
   }
 
   updateMovies() {
-    const { release_date_after } = this.state;
+    const { releaseDateAfter } = this.state;
     const { refreshMovies } = this.props;
-    refreshMovies({...release_date_after, ...refreshMovies});
+    refreshMovies({ ...releaseDateAfter, ...refreshMovies });
   }
 
   render() {
     return <VerticalTimelineComponent {...this.props} {...this.state} />;
   }
 }
-    //<VerticalTimelineElement
-      //iconStyle={{ background: "linear-gradient(blue, pink)", color: "#fff" }}
-      //icon={<StarIcon />}
-    ///>
+// <VerticalTimelineElement
+// iconStyle={{ background: "linear-gradient(blue, pink)", color: "#fff" }}
+// icon={<StarIcon />}
+// />
 
-const VerticalTimelineComponent = ({ movies, ...props }) => (
+const VerticalTimelineComponent = ({ movies }) => (
   <VerticalTimeline>
     {movies.map(movie => (
       <VerticalTimelineElement
@@ -56,13 +55,15 @@ const VerticalTimelineComponent = ({ movies, ...props }) => (
         <p>{movie.overview} </p>
       </VerticalTimelineElement>
     ))}
-
   </VerticalTimeline>
 );
 
+VerticalTimelineComponent.propTypes = {
+  movies: PropTypes.arrayOf(PropTypes.object).isRequired
+};
 
 VerticalTimelineDisplay.propTypes = {
-    refreshMovies: PropTypes.func
+  refreshMovies: PropTypes.func.isRequired
 };
 
 const moviesDataMapper = movie => ({
@@ -80,11 +81,11 @@ const mapStateToProps = state => ({
   movies: !state.refreshedMoviesReducer.data
     ? []
     : state.refreshedMoviesReducer.data
-        .slice(0, 20)
-        .map(moviesDataMapper)
-        .sort(
-          (m1, m2) => new Date(m1.release_date) - new Date(m2.release_date)
-        )
+      .slice(0, 20)
+      .map(moviesDataMapper)
+      .sort(
+        (m1, m2) => new Date(m1.release_date) - new Date(m2.release_date)
+      )
 });
 
 export default connect(

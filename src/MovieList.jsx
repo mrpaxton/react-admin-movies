@@ -106,6 +106,7 @@ MovieGrid.propTypes = {
 const withInitialData = MovieList =>
   class extends List {
     DEFAULT_RELEASE_DATE_FILTER = "2015-01-01";
+
     state = {
       isLoading: true,
       genres: [],
@@ -118,10 +119,10 @@ const withInitialData = MovieList =>
       const { refreshMovies } = this.props;
       const dataProvider = themoviedbDataProvider;
 
-      //dispatch action to refresh movies
+      // dispatch action to refresh movies
       refreshMovies(params);
 
-      //get all genres only once and save to local state
+      // get all genres only once and save to local state
       this.setState({ isLoading: true });
       dataProvider(GET_LIST, "genres")
         .then(
@@ -129,16 +130,16 @@ const withInitialData = MovieList =>
             this.setState({ genres: result.data, isLoading: false });
           },
           error => {
-            console.error("Genre Info Error: " + error);
+            // console.error("Genre Info Error: " + error);
           }
         )
         .catch(e => {
-          console.error(e);
+          // console.error(e);
         });
     }
 
     componentWillReceiveProps(nextProps) {
-      //observe query: if there's a change in search query in props, update movies
+      // observe query: if there's a change in search query in props, update movies
       if (
         JSON.stringify(this.props.location.search) !==
         JSON.stringify(nextProps.location.search)
@@ -156,8 +157,8 @@ const withInitialData = MovieList =>
     }
 
     render() {
-      //local state contains Genre info
-      //props has updated movies from the reducer from Redux store
+      // local state contains Genre info
+      // props has updated movies from the reducer from Redux store
       return (
         <div>
           <ReleaseDatePicker />
@@ -181,7 +182,7 @@ const MovieList = ({ refreshMovies, isLoading, genres, movies, ...props }) => {
   if (isLoading) {
     return <Loading key="loading-movies" />;
   } else if (movies.length > 0 && genres.length > 0) {
-    //refreshMovies() is for MovieGrid not for List
+    // refreshMovies() is for MovieGrid not for List
     return (
       <div>
         <List
