@@ -36,7 +36,11 @@ const Menu = ({ resources, onMenuClick }) => (
 
 Menu.propTypes = {
   resources: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onMenuClick: PropTypes.func.isRequired
+  onMenuClick: PropTypes.func
+};
+
+Menu.defaultProps = {
+  onMenuClick: null
 };
 
 const mapStateToProps = state => ({

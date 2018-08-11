@@ -28,8 +28,8 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
                 "vote_count.gte": 50,
                 page: params.page || 1,
                 "primary_release_date.gte":
-                    params && params.release_date_after ?
-                        params.release_date_after :
+                    params && params.releaseDateAfter ?
+                        params.releaseDateAfter :
                         new Date(now.setFullYear(now.getFullYear() - 1)).toISOString().split("T")[0],
             }
             return { url: `${API_URL}/3/discover/movie?${queryString.stringify(query)}` };

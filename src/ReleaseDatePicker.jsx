@@ -20,7 +20,7 @@ class DateFilterDialog extends React.Component {
     const selectedDateString = day.toISOString().split("T")[0];
     const { refreshMovies } = this.props;
     refreshMovies({
-      release_date_after: selectedDateString
+      releaseDateAfter: selectedDateString
     });
   };
 

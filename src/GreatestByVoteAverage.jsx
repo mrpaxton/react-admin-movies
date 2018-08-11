@@ -50,7 +50,7 @@ BarWithLabel.propTypes = {
   y: PropTypes.number.isRequired,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
   themeColor: PropTypes.string.isRequired
 };
 

@@ -104,18 +104,16 @@ MovieGrid.propTypes = {
 };
 
 const withInitialData = MovieList =>
-  class extends List {
+  class extends MovieList {
     DEFAULT_RELEASE_DATE_FILTER = "2015-01-01";
 
     state = {
       isLoading: true,
       genres: [],
-      release_date_after: this.DEFAULT_RELEASE_DATE_FILTER
+      releaseDateAfter: this.DEFAULT_RELEASE_DATE_FILTER
     };
 
-    updateMovies(
-      params = { release_date_after: this.state.release_date_after }
-    ) {
+    updateMovies(params = { releaseDateAfter: this.state.releaseDateAfter }) {
       const { refreshMovies } = this.props;
       const dataProvider = themoviedbDataProvider;
 

@@ -27,10 +27,6 @@ class VerticalTimelineDisplay extends Component {
     return <VerticalTimelineComponent {...this.props} {...this.state} />;
   }
 }
-// <VerticalTimelineElement
-// iconStyle={{ background: "linear-gradient(blue, pink)", color: "#fff" }}
-// icon={<StarIcon />}
-// />
 
 const VerticalTimelineComponent = ({ movies }) => (
   <VerticalTimeline>
@@ -55,6 +51,10 @@ const VerticalTimelineComponent = ({ movies }) => (
         <p>{movie.overview} </p>
       </VerticalTimelineElement>
     ))}
+    <VerticalTimelineElement
+      iconStyle={{ background: "linear-gradient(blue, pink)", color: "#fff" }}
+      icon={<StarIcon />}
+    />
   </VerticalTimeline>
 );
 
@@ -81,11 +81,11 @@ const mapStateToProps = state => ({
   movies: !state.refreshedMoviesReducer.data
     ? []
     : state.refreshedMoviesReducer.data
-      .slice(0, 20)
-      .map(moviesDataMapper)
-      .sort(
-        (m1, m2) => new Date(m1.release_date) - new Date(m2.release_date)
-      )
+        .slice(0, 20)
+        .map(moviesDataMapper)
+        .sort(
+          (m1, m2) => new Date(m1.release_date) - new Date(m2.release_date)
+        )
 });
 
 export default connect(
