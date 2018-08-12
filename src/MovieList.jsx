@@ -94,17 +94,18 @@ const MovieGrid = ({ basePath, movies = [], genres = [] }) => (
 
 MovieGrid.defaultProps = {
   movies: [],
-  genres: []
+  genres: [],
+  basePath: ""
 };
 
 MovieGrid.propTypes = {
   genres: PropTypes.arrayOf(PropTypes.object),
   movies: PropTypes.arrayOf(PropTypes.object),
-  basePath: PropTypes.func.isRequired
+  basePath: PropTypes.string
 };
 
 const withInitialData = MovieList =>
-  class extends MovieList {
+  class extends React.Component {
     DEFAULT_RELEASE_DATE_FILTER = "2015-01-01";
 
     state = {
@@ -116,6 +117,8 @@ const withInitialData = MovieList =>
     updateMovies(params = { releaseDateAfter: this.state.releaseDateAfter }) {
       const { refreshMovies } = this.props;
       const dataProvider = themoviedbDataProvider;
+
+      console.log(params);
 
       // dispatch action to refresh movies
       refreshMovies(params);
@@ -157,14 +160,11 @@ const withInitialData = MovieList =>
     render() {
       // local state contains Genre info
       // props has updated movies from the reducer from Redux store
+      const { releaseDateAfter, ...state } = this.state;
       return (
         <div>
           <ReleaseDatePicker />
-          <MovieList
-            {...this.props}
-            {...this.state}
-            {...this.props.refreshMovies}
-          />
+          <MovieList {...state} {...this.props} />
         </div>
       );
     }
@@ -180,12 +180,11 @@ const MovieList = ({ refreshMovies, isLoading, genres, movies, ...props }) => {
   if (isLoading) {
     return <Loading key="loading-movies" />;
   } else if (movies.length > 0 && genres.length > 0) {
-    // refreshMovies() is for MovieGrid not for List
     return (
       <div>
         <List
           titlte="Movies"
-          perPage={20}
+          perPage={10}
           filters={<MovieFilter />}
           {...props}
         >
@@ -200,6 +199,10 @@ const MovieList = ({ refreshMovies, isLoading, genres, movies, ...props }) => {
   } else {
     return <Typography>Cannot load movies. Try again later!</Typography>;
   }
+};
+
+MovieList.propTypes = {
+  refreshMovies: PropTypes.func.isRequired
 };
 
 const moviesDataMapper = movie => ({
