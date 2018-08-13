@@ -118,8 +118,6 @@ const withInitialData = MovieList =>
       const { refreshMovies } = this.props;
       const dataProvider = themoviedbDataProvider;
 
-      console.log(params);
-
       // dispatch action to refresh movies
       refreshMovies(params);
 
@@ -176,33 +174,28 @@ const MovieFilter = props => (
   </Filter>
 );
 
-const MovieList = ({ refreshMovies, isLoading, genres, movies, ...props }) => {
-  if (isLoading) {
-    return <Loading key="loading-movies" />;
-  } else if (movies.length > 0 && genres.length > 0) {
-    return (
-      <div>
-        <List
-          titlte="Movies"
-          perPage={10}
-          filters={<MovieFilter />}
-          {...props}
-        >
-          <MovieGrid
-            refreshMovies={refreshMovies}
-            movies={movies}
-            genres={genres}
-          />
-        </List>
-      </div>
-    );
-  } else {
-    return <Typography>Cannot load movies. Try again later!</Typography>;
-  }
-};
+const MovieList = ({ refreshMovies, isLoading, genres, movies, ...props }) =>
+  isLoading ? (
+    <Loading key="loading-movies" />
+  ) : movies.length > 0 && genres.length > 0 ? (
+    <div>
+      <List titlte="Movies" perPage={10} filters={<MovieFilter />} {...props}>
+        <MovieGrid
+          refreshMovies={refreshMovies}
+          movies={movies}
+          genres={genres}
+        />
+      </List>
+    </div>
+  ) : (
+    <Typography>Cannot load movies. Try again later!</Typography>
+  );
 
 MovieList.propTypes = {
-  refreshMovies: PropTypes.func.isRequired
+  refreshMovies: PropTypes.func.isRequired,
+  isLoading: PropTypes.func.isRequired,
+  genres: PropTypes.array.isRequired,
+  movies: PropTypes.array.isRequired
 };
 
 const moviesDataMapper = movie => ({
