@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import StackGrid from "react-stack-grid";
 import Card from "@material-ui/core/Card";
+import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -29,7 +30,8 @@ const queryString = require("query-string");
 const cardStyle = {
   width: 400,
   minHeight: 700,
-  margin: "0.5em",
+  margin: "0.2em",
+  paddingBottom: "0.5em",
   display: "inline-block",
   verticalAlign: "top"
 };
@@ -42,9 +44,29 @@ const cardMediaStyle = {
   zIndex: 2
 };
 
+class VoteButton extends React.Component {
+  state = { voteClicked: false, buttonLabel: "Vote" };
+  render() {
+    return (
+      <Button
+        variant="raised"
+        color="secondary"
+        onClick={() => {
+          alert("Posting vote");
+          // TODO: posting vote to api via dataProvider
+          this.setState({ voteClicked: true, buttonLabel: "Voted" });
+        }}
+        disabled={this.state.voteClicked}
+      >
+            {this.state.buttonLabel}
+      </Button>
+    );
+  }
+}
+
 const MovieGrid = ({ basePath, movies = [], genres = [] }) => (
   <StackGrid
-    style={{ marginTop: 70 }}
+    style={{ marginTop: 20 }}
     appearDelay={150}
     duration={700}
     columnWidth={400}
@@ -86,6 +108,7 @@ const MovieGrid = ({ basePath, movies = [], genres = [] }) => (
         </CardContent>
         <CardActions>
           <ShowButton label="Details" basePath={basePath} record={movie} />
+          <VoteButton />
         </CardActions>
       </Card>
     ))}
