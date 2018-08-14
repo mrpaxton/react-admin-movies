@@ -38,7 +38,7 @@ class DateFilterDialog extends React.Component {
     const { open } = this.state;
     return (
       <div>
-        <Button onClick={this.handleClickOpen}>Date Filter</Button>
+        <Button onClick={this.handleClickOpen}>Release Date Filter</Button>
         <Dialog
           open={open}
           onClose={this.handleClose}
