@@ -1,4 +1,4 @@
-import { REFRESH_MOVIES_SUCCESS } from "./refreshMoviesAction";
+import { REFRESH_MOVIES_SUCCESS } from "../actions";
 
 export default (previousState = [], action) => {
   const { type, payload } = action;

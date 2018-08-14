@@ -6,7 +6,7 @@ import VerticalTimelineDisplay from "./VerticalTimelineDisplay";
 
 export default () => (
   <Card>
-    <CardHeader title="Top 20 Movies Timeline, since 2000" />
+    <CardHeader title="Movie Timeline" />
     <CardContent>
       <VerticalTimelineDisplay />
     </CardContent>

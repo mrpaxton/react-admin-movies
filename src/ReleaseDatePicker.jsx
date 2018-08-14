@@ -9,7 +9,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DayPicker from "react-day-picker";
 import "react-day-picker/lib/style.css";
-import refreshMoviesAction from "./refreshMoviesAction";
+import { refreshMoviesAction, selectReleaseDateAction } from "./actions";
 
 class DateFilterDialog extends React.Component {
   state = {
@@ -18,10 +18,12 @@ class DateFilterDialog extends React.Component {
 
   onDayClick = day => {
     const selectedDateString = day.toISOString().split("T")[0];
-    const { refreshMovies } = this.props;
+    const { selectReleaseDate, refreshMovies } = this.props;
     refreshMovies({
       releaseDateAfter: selectedDateString
     });
+    // TODO: also set global state: selectedReleaseDateFilter
+    selectReleaseDate(selectedDateString);
   };
 
   handleClickOpen = () => {
@@ -66,8 +68,11 @@ DateFilterDialog.propTypes = {
   refreshMovies: PropTypes.func.isRequired
 };
 
-const DatePickerComponent = ({ refreshMovies }) => (
-  <DateFilterDialog refreshMovies={refreshMovies} />
+const DatePickerComponent = ({ selectReleaseDate, refreshMovies }) => (
+  <DateFilterDialog
+    refreshMovies={refreshMovies}
+    selectReleaseDate={selectReleaseDate}
+  />
 );
 
 DatePickerComponent.propTypes = {
@@ -77,6 +82,7 @@ DatePickerComponent.propTypes = {
 export default connect(
   null,
   {
-    refreshMovies: refreshMoviesAction
+    refreshMovies: refreshMoviesAction,
+    selectReleaseDate: selectReleaseDateAction
   }
 )(DatePickerComponent);

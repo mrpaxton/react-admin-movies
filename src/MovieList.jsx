@@ -22,7 +22,7 @@ import SmileyIcon from "@material-ui/icons/SentimentSatisfied";
 import MovieIcon from "@material-ui/icons/Movie";
 import themoviedbDataProvider from "./themoviedbDataProvider";
 import ReleaseDatePicker from "./ReleaseDatePicker";
-import refreshMoviesAction from "./refreshMoviesAction";
+import { refreshMoviesAction } from "./actions";
 
 const queryString = require("query-string");
 

@@ -7,13 +7,14 @@ import Menu from "./Menu";
 import customRoutes from "./CustomRoutes";
 import authProvider from "./authProvider";
 import themoviedbDataProvider from "./themoviedbDataProvider";
-import refreshedMoviesReducer from "./refreshedMoviesReducer";
+import refreshedMoviesReducer from "./reducers/refreshedMoviesReducer";
+import selectedReleaseDateReducer from "./reducers/selectedReleaseDateReducer";
 
 const dataProvider = themoviedbDataProvider;
 
 const App = () => (
   <Admin
-    customReducers={{ refreshedMoviesReducer }}
+    customReducers={{ refreshedMoviesReducer, selectedReleaseDateReducer }}
     menu={Menu}
     authProvider={authProvider}
     customRoutes={customRoutes}

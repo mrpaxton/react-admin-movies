@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
 import StarIcon from "@material-ui/icons/Star";
 import {
@@ -8,28 +9,50 @@ import {
 } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
 import { connect } from "react-redux";
-import refreshMoviesAction from "./refreshMoviesAction";
+import { refreshMoviesAction } from "./actions";
 
 class VerticalTimelineDisplay extends Component {
-  state = { releaseDateAfter: "2000-01-01" };
+  constructor(props) {
+    super(props);
+    this.state = { releaseDateAfter: "2000-01-01" };
+    this.updateFromChild = this.updateFromChild.bind(this);
+  }
 
   componentDidMount() {
     this.updateMovies();
   }
 
+  updateFromChild(newReleaseDate) {
+    const { refreshMovies } = this.props;
+    refreshMovies({ releaseDateAfter: newReleaseDate });
+  }
+
   updateMovies() {
     const { releaseDateAfter } = this.state;
     const { refreshMovies } = this.props;
-    refreshMovies({ ...releaseDateAfter, ...refreshMovies });
+    refreshMovies({ ...releaseDateAfter });
   }
 
   render() {
-    return <VerticalTimelineComponent {...this.props} {...this.state} />;
+    return (
+      <VerticalTimelineComponent
+        updateFromChild={this.updateFromChild}
+        {...this.props}
+        {...this.state}
+      />
+    );
   }
 }
 
-const VerticalTimelineComponent = ({ movies }) => (
+const VerticalTimelineComponent = ({
+  movies,
+  selectedReleaseDate,
+  updateFromChild
+}) => (
   <VerticalTimeline>
+    <Button onClick={() => updateFromChild(selectedReleaseDate)}>
+      Refresh
+    </Button>
     {movies.map(movie => (
       <VerticalTimelineElement
         key={movie.title}
@@ -78,6 +101,7 @@ const moviesDataMapper = movie => ({
 const mapActionsToProps = { refreshMovies: refreshMoviesAction };
 
 const mapStateToProps = state => ({
+  selectedReleaseDate: state.selectedReleaseDateReducer,
   movies: !state.refreshedMoviesReducer.data
     ? []
     : state.refreshedMoviesReducer.data
