@@ -23,6 +23,7 @@ import SmileyIcon from "@material-ui/icons/SentimentSatisfied";
 import MovieIcon from "@material-ui/icons/Movie";
 import themoviedbDataProvider from "./themoviedbDataProvider";
 import ReleaseDatePicker from "./ReleaseDatePicker";
+import ReviewsDialog from "./ReviewsDialog";
 import { refreshMoviesAction } from "./actions";
 
 const queryString = require("query-string");
@@ -44,22 +45,13 @@ const cardMediaStyle = {
   zIndex: 2
 };
 
-class VoteButton extends React.Component {
-  state = { voteClicked: false, buttonLabel: "Vote" };
+class ReviewsButton extends React.Component {
+  state = { dialogOpen: false, buttonLabel: "Reviews" };
   render() {
     return (
-      <Button
-        variant="raised"
-        color="secondary"
-        onClick={() => {
-          alert("Posting vote");
-          // TODO: posting vote to api via dataProvider
-          this.setState({ voteClicked: true, buttonLabel: "Voted" });
-        }}
-        disabled={this.state.voteClicked}
-      >
-            {this.state.buttonLabel}
-      </Button>
+      <div>
+        <ReviewsDialog dialogOpen={this.state.dialogOpen} />
+      </div>
     );
   }
 }
@@ -108,7 +100,7 @@ const MovieGrid = ({ basePath, movies = [], genres = [] }) => (
         </CardContent>
         <CardActions>
           <ShowButton label="Details" basePath={basePath} record={movie} />
-          <VoteButton />
+          <ReviewsButton />
         </CardActions>
       </Card>
     ))}
