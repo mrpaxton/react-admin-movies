@@ -57,10 +57,23 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
     }
 
     case GET_ONE: {
-      const query = {
-        api_key: API_KEY
-      };
-      url = `${API_URL}/3/movie/${params.id}?${queryString.stringify(query)}`;
+      if (resource === "movies") {
+        const query = {
+          api_key: API_KEY
+        };
+        url = `${API_URL}/3/movie/${params.id}?${queryString.stringify(
+          query
+        )}`;
+      }
+
+      if (resource === "reviews") {
+        const query = {
+          api_key: API_KEY
+        };
+        url = `${API_URL}/3/movie/${params.id}/reviews?${queryString.stringify(
+          query
+        )}`;
+      }
       break;
     }
 
@@ -131,18 +144,27 @@ const convertHTTPResponseToDataProvider = (
       break;
     }
     case GET_ONE: {
-      json["image_path"] = poster_show_base_url + json.poster_path;
-      const logos = json.production_companies.reduce((acc, c) => {
-        if (c.logo_path) {
-          const logoPath = c.logo_path.split(".png")[0] + ".svg";
-          acc.push(avatar_base_url + logoPath);
-        }
-        return acc;
-      }, []);
-      json["company_logos"] = logos;
-      return {
-        data: json
-      };
+      if (resource === "movies") {
+        json["image_path"] = poster_show_base_url + json.poster_path;
+        const logos = json.production_companies.reduce((acc, c) => {
+          if (c.logo_path) {
+            const logoPath = c.logo_path.split(".png")[0] + ".svg";
+            acc.push(avatar_base_url + logoPath);
+          }
+          return acc;
+        }, []);
+        json["company_logos"] = logos;
+        return {
+          data: json
+        };
+      }
+
+      if (resource === "reviews") {
+        return {
+          data: json
+        };
+      }
+      break;
     }
     default:
       return { data: json };

@@ -45,17 +45,6 @@ const cardMediaStyle = {
   zIndex: 2
 };
 
-class ReviewsButton extends React.Component {
-  state = { dialogOpen: false, buttonLabel: "Reviews" };
-  render() {
-    return (
-      <div>
-        <ReviewsDialog dialogOpen={this.state.dialogOpen} />
-      </div>
-    );
-  }
-}
-
 const MovieGrid = ({ basePath, movies = [], genres = [] }) => (
   <StackGrid
     style={{ marginTop: 20 }}
@@ -100,7 +89,7 @@ const MovieGrid = ({ basePath, movies = [], genres = [] }) => (
         </CardContent>
         <CardActions>
           <ShowButton label="Details" basePath={basePath} record={movie} />
-          <ReviewsButton />
+          <ReviewsDialog movieId={movie.id} movieTitle={movie.title} />
         </CardActions>
       </Card>
     ))}
