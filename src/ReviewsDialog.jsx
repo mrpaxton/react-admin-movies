@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Loading } from "react-admin";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -14,10 +15,16 @@ export default class ReviewsDialog extends React.Component {
   state = { isLoading: true, open: false, movieReviews: [] };
 
   getReviewData = movieId => {
-    const dataProvider = themoviedbDataProvider;
-    dataProvider("GET_ONE", "reviews", { id: movieId }).then(response => {
-      this.setState({ isLoading: false, movieReviews: response.data.results });
-    });
+    const { movieReviews } = this.state;
+    if (movieReviews.length === 0) {
+      const dataProvider = themoviedbDataProvider;
+      dataProvider("GET_ONE", "reviews", { id: movieId }).then(response => {
+        this.setState({
+          isLoading: false,
+          movieReviews: response.data.results
+        });
+      });
+    }
   };
 
   handleClose = () => {
@@ -79,3 +86,8 @@ export default class ReviewsDialog extends React.Component {
     );
   }
 }
+
+ReviewsDialog.propTypes = {
+  movieId: PropTypes.number.isRequired,
+  movieTitle: PropTypes.string.isRequired
+};

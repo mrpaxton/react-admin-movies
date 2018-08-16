@@ -197,9 +197,9 @@ const MovieList = ({ refreshMovies, isLoading, genres, movies, ...props }) =>
 
 MovieList.propTypes = {
   refreshMovies: PropTypes.func.isRequired,
-  isLoading: PropTypes.func.isRequired,
-  genres: PropTypes.array.isRequired,
-  movies: PropTypes.array.isRequired
+  isLoading: PropTypes.bool.isRequired,
+  genres: PropTypes.arrayOf(PropTypes.object).isRequired,
+  movies: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 const moviesDataMapper = movie => ({
