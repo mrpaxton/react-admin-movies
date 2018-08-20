@@ -118,7 +118,7 @@ const withInitialData = MovieList =>
       releaseDateAfter: this.DEFAULT_RELEASE_DATE_FILTER
     };
 
-    updateMovies(params = { releaseDateAfter: this.state.releaseDateAfter }) {
+    updateMovies(params = { ...this.state.releaseDateAfter }) {
       const { refreshMovies } = this.props;
       const dataProvider = themoviedbDataProvider;
 
