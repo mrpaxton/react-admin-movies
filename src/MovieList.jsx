@@ -23,6 +23,7 @@ import SmileyIcon from "@material-ui/icons/SentimentSatisfied";
 import MovieIcon from "@material-ui/icons/Movie";
 import themoviedbDataProvider from "./themoviedbDataProvider";
 import ReleaseDatePicker from "./ReleaseDatePicker";
+import VoteFilterSlider from "./VoteFilterSlider";
 import ReviewsDialog from "./ReviewsDialog";
 import { refreshMoviesAction } from "./actions";
 
@@ -166,6 +167,7 @@ const withInitialData = MovieList =>
       return (
         <div>
           <ReleaseDatePicker />
+          <VoteFilterSlider />
           <MovieList {...state} {...this.props} />
         </div>
       );

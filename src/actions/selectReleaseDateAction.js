@@ -4,3 +4,4 @@ export const selectReleaseDateAction = selectedReleaseDate => ({
   type: SELECT_RELEASE_DATE,
   payload: { selectedReleaseDate }
 });
+

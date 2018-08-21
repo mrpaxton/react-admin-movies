@@ -38,7 +38,13 @@ class DateFilterDialog extends React.Component {
     const { open } = this.state;
     return (
       <div>
-        <Button variant="raised" color="secondary" onClick={this.handleClickOpen}>Date Filter</Button>
+        <Button
+          variant="raised"
+          color="secondary"
+          onClick={this.handleClickOpen}
+        >
+          Date Filter
+        </Button>
         <Dialog
           open={open}
           onClose={this.handleClose}
@@ -65,19 +71,21 @@ class DateFilterDialog extends React.Component {
 }
 
 DateFilterDialog.propTypes = {
-  refreshMovies: PropTypes.func.isRequired
+  refreshMovies: PropTypes.func.isRequired,
+  selectReleaseDate: PropTypes.func.isRequired
 };
 
-const DatePickerComponent = ({ selectReleaseDate, refreshMovies }) => (
-  <DateFilterDialog
-    refreshMovies={refreshMovies}
-    selectReleaseDate={selectReleaseDate}
-  />
-);
+//const DatePickerComponent = ({ selectReleaseDate, refreshMovies }) => (
+//<DateFilterDialog
+//refreshMovies={refreshMovies}
+//selectReleaseDate={selectReleaseDate}
+///>
+//);
 
-DatePickerComponent.propTypes = {
-  refreshMovies: PropTypes.func.isRequired
-};
+//DatePickerComponent.propTypes = {
+//refreshMovies: PropTypes.func.isRequired,
+//selectReleaseDate: PropTypes.func.isRequired
+//};
 
 export default connect(
   null,
@@ -85,4 +93,4 @@ export default connect(
     refreshMovies: refreshMoviesAction,
     selectReleaseDate: selectReleaseDateAction
   }
-)(DatePickerComponent);
+)(DateFilterDialog);

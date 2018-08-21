@@ -22,8 +22,8 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
           api_key: API_KEY,
           language: LANGUAGE,
           sort_by: "revenue.desc",
-          "vote_count.gte": 50,
-          page: params.page || 1,
+          "vote_count.gte": (params && params.voteFilterNumber) || 50,
+          page: (params && params.page) || 1,
           "primary_release_date.gte":
             params && params.releaseDateAfter
               ? params.releaseDateAfter
