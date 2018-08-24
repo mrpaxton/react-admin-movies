@@ -13,26 +13,26 @@ const styles = {
   },
   labels: {
     height: 50
+  },
+  labelLeft: {
+    float: "left",
+    width: "40%",
+    padding: "10px"
+  },
+  labelRight: {
+    float: "right",
+    width: "40%",
+    padding: "10px"
   }
 };
 
 const VoteFilterSlider = ({ classes, voteCount, onVoteCountChange }) => (
   <div className={classes.root}>
     <div className={classes.labels}>
-      <Typography
-        variant="subheading"
-        style={{ float: "left", width: "40%", padding: "10px" }}
-      >
+      <Typography variant="subheading" className={classes.labelLeft}>
         Vote Count
       </Typography>
-      <Typography
-        variant="subheading"
-        style={{
-          float: "right",
-          width: "40%",
-          padding: "10px"
-        }}
-      >
+      <Typography variant="subheading" className={classes.labelRight}>
         {voteCount}
       </Typography>
     </div>
@@ -66,17 +66,19 @@ const withConnectedRedux = connect(
   mapActionsToProps
 );
 
+const onVoteChangeHandler = props => (event, value) => {
+  const { setVoteCount, refreshMovies } = props;
+  setVoteCount(value);
+  refreshMovies({ voteFilterNumber: value });
+};
+
 const enhance = compose(
   withConnectedRedux,
-  withStyles(styles),
   withState("voteCount", "setVoteCount", 1000),
   withHandlers({
-    onVoteCountChange: props => (event, value) => {
-      const { setVoteCount, refreshMovies } = props;
-      setVoteCount(value);
-      refreshMovies({ voteFilterNumber: value });
-    }
-  })
+    onVoteCountChange: onVoteChangeHandler
+  }),
+  withStyles(styles)
 );
 
 export default enhance(VoteFilterSlider);
