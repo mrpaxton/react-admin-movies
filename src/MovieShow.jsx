@@ -224,6 +224,9 @@ MovieShow.defaultProps = {
   cast: []
 };
 
-const enhance = compose(withStyles(styles));
+const enhance = compose(
+  withCastData,
+  withStyles(styles)
+);
 
-export default withCastData(enhance(MovieShow));
+export default enhance(MovieShow);

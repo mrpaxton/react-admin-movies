@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import StackGrid from "react-stack-grid";
 import Card from "@material-ui/core/Card";
-import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -109,8 +108,8 @@ MovieGrid.propTypes = {
   basePath: PropTypes.string
 };
 
-const withInitialData = MovieList =>
-  class extends React.Component {
+const withInitialData = MovieList => {
+  class WithInitialData extends React.Component {
     DEFAULT_RELEASE_DATE_FILTER = "2015-01-01";
 
     state = {
@@ -161,8 +160,7 @@ const withInitialData = MovieList =>
     }
 
     render() {
-      // local state contains Genre info
-      // props has updated movies from the reducer from Redux store
+      // take out releaseDateAfter before spreading state properties to MovieList
       const { releaseDateAfter, ...state } = this.state;
       return (
         <div>
@@ -172,7 +170,10 @@ const withInitialData = MovieList =>
         </div>
       );
     }
-  };
+  }
+
+  return WithInitialData;
+};
 
 const MovieFilter = props => (
   <Filter {...props}>
