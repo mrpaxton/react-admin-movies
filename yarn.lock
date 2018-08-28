@@ -101,44 +101,44 @@
     lodash "^4.17.5"
     to-fast-properties "^2.0.0"
 
-"@devexpress/dx-chart-core@1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@devexpress/dx-chart-core/-/dx-chart-core-1.5.0.tgz#ea2a47439b86ccc900ce3363a10ba05c4ac5047c"
+"@devexpress/dx-chart-core@1.7.0", "@devexpress/dx-chart-core@^1.5.0":
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/@devexpress/dx-chart-core/-/dx-chart-core-1.7.0.tgz#3763a68b7da0b2e203d8cf85d077736eaa267c2d"
   dependencies:
     d3-array "^1.2.1"
     d3-scale "^2.1.0"
     d3-shape "^1.2.0"
 
-"@devexpress/dx-core@1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@devexpress/dx-core/-/dx-core-1.5.0.tgz#4fc4f6211dc4d5ca82c165e4358d14831defe203"
+"@devexpress/dx-core@1.7.0":
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/@devexpress/dx-core/-/dx-core-1.7.0.tgz#0c0db2a9bb726271f610d2634a6e208ade496522"
 
-"@devexpress/dx-react-chart-material-ui@1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-chart-material-ui/-/dx-react-chart-material-ui-1.5.0.tgz#92d46988e52594227c20f7f93db8a8a84c9d232b"
+"@devexpress/dx-react-chart-material-ui@^1.5.0":
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-chart-material-ui/-/dx-react-chart-material-ui-1.7.0.tgz#0e1c8d4ef04f29f5a0d08ff292bfc85b4bae236e"
   dependencies:
     classnames "^2.2.6"
     prop-types "^15.6.2"
 
-"@devexpress/dx-react-chart@1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-chart/-/dx-react-chart-1.5.0.tgz#5086cd996f6a9a611d28d9e0a74bfb77122f500d"
+"@devexpress/dx-react-chart@^1.5.0":
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-chart/-/dx-react-chart-1.7.0.tgz#62087438a04a72d2d8842cbfae0cc1199b51964f"
   dependencies:
-    "@devexpress/dx-chart-core" "1.5.0"
+    "@devexpress/dx-chart-core" "1.7.0"
     d3-scale "^2.1.0"
     d3-shape "^1.2.0"
     prop-types "^15.6.2"
 
-"@devexpress/dx-react-core@1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-core/-/dx-react-core-1.5.0.tgz#f0fdaced763faf9c0c5956cdc2b2b0dd45b6b7a6"
+"@devexpress/dx-react-core@^1.5.0":
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-core/-/dx-react-core-1.7.0.tgz#712d102f71f4dced615c5e6b1489d209489f5cad"
   dependencies:
-    "@devexpress/dx-core" "1.5.0"
+    "@devexpress/dx-core" "1.7.0"
     prop-types "^15.6.2"
 
-"@devexpress/dx-react-grid-material-ui@1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-grid-material-ui/-/dx-react-grid-material-ui-1.5.0.tgz#7bdb1bcf96f0aaabb34232eda858c884440e17de"
+"@devexpress/dx-react-grid-material-ui@^1.5.0":
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-grid-material-ui/-/dx-react-grid-material-ui-1.7.0.tgz#58e5490dbddacf3b25b55b7a83ee694aa931988e"
   dependencies:
     classnames "^2.2.6"
     prop-types "^15.6.2"
@@ -6805,12 +6805,12 @@ react-autowhatever@^10.1.2:
     react-themeable "^1.1.0"
     section-iterator "^2.0.0"
 
-react-d3-speedometer@^0.3.2:
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/react-d3-speedometer/-/react-d3-speedometer-0.3.3.tgz#eb55564132917306b5f71cb11ee8cc5655127c02"
+react-d3-speedometer@0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/react-d3-speedometer/-/react-d3-speedometer-0.3.2.tgz#adefdebfea273468ca86e8dea0ea0e6c1df718b6"
   dependencies:
     babel-runtime "^6.11.6"
-    d3 "^4.10.0"
+    d3 "4.10.0"
     prop-types "^15.5.10"
 
 react-day-picker@^7.1.10:
