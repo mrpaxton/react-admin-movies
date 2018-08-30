@@ -4,6 +4,7 @@ import MovieList from "./MovieList";
 import MovieShow from "./MovieShow";
 import GenreList from "./GenreList";
 import Menu from "./Menu";
+import CustomLogin from "./CustomLogin";
 import customRoutes from "./CustomRoutes";
 import authProvider from "./authProvider";
 import themoviedbDataProvider from "./themoviedbDataProvider";
@@ -17,6 +18,7 @@ const App = () => (
     customReducers={{ refreshedMoviesReducer, selectedReleaseDateReducer }}
     menu={Menu}
     authProvider={authProvider}
+    loginPage={CustomLogin}
     customRoutes={customRoutes}
     dataProvider={dataProvider}
   >
