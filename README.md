@@ -1,5 +1,4 @@
-A movie dashboard using the react-admin framework and themoviedb API backend <br/>
-[(https://tiny.cc/qbvpxy)](https://tiny.cc/qbvpxy)
+A movie dashboard using the react-admin framework and themoviedb API backend [(https://tiny.cc/qbvpxy)](https://tiny.cc/qbvpxy)
 
 <br>
 
